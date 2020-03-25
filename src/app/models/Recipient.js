@@ -10,11 +10,11 @@ class Recipient extends Model {
         complemento: Sequelize.STRING,
         estado: Sequelize.STRING,
         cidade: Sequelize.STRING,
-        cep: Sequelize.INTEGER
+        cep: Sequelize.INTEGER,
       },
       {
-        sequelize
-      }
+        sequelize,
+      },
     );
 
     return this;

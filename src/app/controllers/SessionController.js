@@ -9,7 +9,7 @@ class SessionController {
       const { email, password } = req.body;
 
       const userExists = await User.findOne({
-        where: { email }
+        where: { email },
       });
 
       if (!userExists) {
@@ -25,8 +25,8 @@ class SessionController {
       return res.json({
         user: { id, name, email },
         token: jwt.sign({ id }, auth.secret, {
-          expiresIn: auth.expiresIn
-        })
+          expiresIn: auth.expiresIn,
+        }),
       });
     } catch (Error) {
       return res.json(Error.message);

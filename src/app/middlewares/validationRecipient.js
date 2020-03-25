@@ -8,9 +8,7 @@ export default async (req, res, next) => {
     complemento: Yup.string().required(),
     estado: Yup.string().required(),
     cidade: Yup.string().required(),
-    cep: Yup.number()
-      .required()
-      .max(8)
+    cep: Yup.number().min(8),
   });
 
   if (!(await schema.isValid(req.body))) {

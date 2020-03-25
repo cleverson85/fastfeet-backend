@@ -8,7 +8,7 @@ class RecipientController {
       const { numero, cep } = req.body;
 
       const recipient = await Recipient.findOne({
-        where: { [Op.and]: [{ numero }, { cep }] }
+        where: { [Op.and]: [{ numero }, { cep }] },
       });
 
       if (recipient) {
@@ -21,17 +21,44 @@ class RecipientController {
         rua,
         complemento,
         estado,
-        cidade
+        cidade,
       } = await Recipient.create(req.body);
 
-      return res.json({ id, nome, rua, complemento, estado, cidade, cep });
+      return res.json({
+        id, nome, rua, complemento, estado, cidade, cep,
+      });
     } catch (e) {
       return res.status(401).json(e.message);
     }
   }
 
-  update(req, res, next) {
-    return res.json({ Ok: true });
+  async update(req, res) {
+    try {
+      const { numero, cep } = req.body;
+
+      const recipient = await Recipient.findOne({
+        where: { [Op.and]: [{ numero }, { cep }] },
+      });
+
+      if (!recipient) {
+        return res.status(401).json({ error: 'Destinatário não cadastrado.' });
+      }
+
+      const {
+        id,
+        nome,
+        rua,
+        complemento,
+        estado,
+        cidade,
+      } = await recipient.update(req.body);
+
+      return res.json({
+        id, nome, rua, complemento, estado, cidade, cep,
+      });
+    } catch (e) {
+      return res.status(401).json(e.message);
+    }
   }
 }
 
