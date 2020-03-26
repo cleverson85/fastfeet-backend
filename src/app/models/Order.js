@@ -1,16 +1,14 @@
-import Sequelize, { Model } from 'sequelize';
+import Sequelize, { Model, DataTypes } from 'sequelize';
 
 class Order extends Model {
   static init(sequelize) {
     super.init(
       {
         product: Sequelize.STRING,
-        // deliveryman_id: Sequelize.INTEGER,
-        // recipient_id: Sequelize.INTEGER,
-        // signature_id: Sequelize.INTEGER,
-        start_date: Sequelize.DATE,
-        end_date: Sequelize.DATE,
-        canceled_at: Sequelize.DATE,
+        start_date: DataTypes.DATEONLY,
+        end_date: DataTypes.DATEONLY,
+        canceled_at: DataTypes.DATEONLY,
+
       },
       {
         sequelize,

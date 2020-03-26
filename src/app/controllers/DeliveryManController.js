@@ -104,6 +104,7 @@ class DeliveryManController {
           deliveryman_id: req.params.id,
           start_date: { [Op.ne]: null },
           end_date: { [Op.ne]: null },
+          canceled_at: null,
         },
         attributes: ['product'],
         order: ['product'],
@@ -111,12 +112,17 @@ class DeliveryManController {
           {
             model: Recipient,
             as: 'recipient',
-            attributes: ['nome', 'rua'],
+            attributes: ['nome', 'rua', 'numero', 'cidade', 'cep'],
+          },
+          {
+            model: File,
+            as: 'signature',
+            attributes: ['id', 'path', 'url'],
           },
           {
             model: DeliveryMan,
             as: 'deliveryMan',
-            attributes: ['name'],
+            attributes: ['name', 'email'],
             include: [
               {
                 model: File,

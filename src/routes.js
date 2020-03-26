@@ -12,11 +12,16 @@ import DeliveryController from './app/controllers/DeliveryController';
 import authentication from './app/middlewares/autentication';
 import validationRecipient from './app/middlewares/validationRecipient';
 import validationOrder from './app/middlewares/validationOrder';
+import validationStartDelivery from './app/middlewares/validationStartDelivery';
+import validationEndDelivery from './app/middlewares/validationEndDelivery';
 
 const routes = new Router();
 const upload = multer(multerConfig);
 
 routes.get('/delivery/:id', DeliveryController.index);
+routes.put('/deliveryStart', validationStartDelivery, DeliveryController.startDelivery);
+routes.put('/deliveryEnd', validationEndDelivery, DeliveryController.endDelivery);
+
 routes.get('/deliveryman/:id/deliveries', DeliveryManController.deliveries);
 
 routes.post('/session', SessionController.store);
