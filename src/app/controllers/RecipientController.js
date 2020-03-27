@@ -28,7 +28,7 @@ class RecipientController {
         id, nome, rua, complemento, estado, cidade, cep,
       });
     } catch (e) {
-      return res.status(401).json(e.message);
+      return res.status(401).json({ error: e.message });
     }
   }
 
@@ -57,7 +57,7 @@ class RecipientController {
         id, nome, rua, complemento, estado, cidade, cep,
       });
     } catch (e) {
-      return res.status(401).json(e.message);
+      return res.status(401).json({ error: e.message });
     }
   }
 }

@@ -27,7 +27,7 @@ class DeliveryManController {
         id, name, email, avatar_id,
       });
     } catch (e) {
-      return res.status(401).json(e.message);
+      return res.status(401).json({ error: e.message });
     }
   }
 
@@ -49,7 +49,7 @@ class DeliveryManController {
         id, name, email,
       });
     } catch (e) {
-      return res.status(401).json(e.message);
+      return res.status(401).json({ error: e.message });
     }
   }
 
@@ -81,7 +81,7 @@ class DeliveryManController {
 
       return res.status(401).json({ error: 'Não foi possível executar a operação.' });
     } catch (e) {
-      return res.status(401).json(e.message);
+      return res.status(401).json({ error: e.message });
     }
   }
 
@@ -93,7 +93,7 @@ class DeliveryManController {
 
       return res.json(deliveryMans);
     } catch (e) {
-      return res.status(401).json(e.message);
+      return res.status(401).json({ error: e.message });
     }
   }
 
@@ -140,7 +140,7 @@ class DeliveryManController {
 
       return res.json(orders);
     } catch (e) {
-      return res.status(401).json(e.message);
+      return res.status(401).json({ error: e.message });
     }
   }
 }

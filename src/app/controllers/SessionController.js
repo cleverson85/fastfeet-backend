@@ -28,8 +28,8 @@ class SessionController {
           expiresIn: auth.expiresIn,
         }),
       });
-    } catch (Error) {
-      return res.json(Error.message);
+    } catch (e) {
+      return res.status(401).json({ error: e.message });
     }
   }
 }

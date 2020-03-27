@@ -1,8 +1,9 @@
 import Sequelize, { Model } from 'sequelize';
 
-class Issues extends Model {
+class DeliveryIssues extends Model {
   static init(sequelize) {
     super.init({
+      order_id: Sequelize.INTEGER,
       description: Sequelize.STRING,
     }, {
       sequelize,
@@ -16,4 +17,4 @@ class Issues extends Model {
   }
 }
 
-export default Issues;
+export default DeliveryIssues;

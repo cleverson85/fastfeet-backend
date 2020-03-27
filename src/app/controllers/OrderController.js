@@ -2,6 +2,7 @@ import Mail from '../../lib/Mail';
 
 import Order from '../models/Order';
 import DeliveryMan from '../models/DeliveryMan';
+import Recipient from '../models/Recipient';
 
 class OrderController {
   async store(req, res) {
@@ -15,11 +16,19 @@ class OrderController {
       } = await Order.create(req.body);
 
       const deliveryman = await DeliveryMan.findByPk(deliveryman_id);
+      const recipient = await Recipient.findByPk(recipient_id);
 
       await Mail.sendMail({
         to: `${deliveryman.name} <${deliveryman.email}>`,
-        subject: 'Produto está disponível para a retirada',
-        text: 'Você tem um produto disponível para retirada e entrega.',
+        subject: 'Pedido está disponível para a retirada',
+        text: `Você tem um produto disponível para retirada e entrega.
+               Cód.: ${id}
+               Nome.: ${product} 
+               Destinatário: ${recipient.nome}
+               Endereço: Rua ${recipient.rua}, N°. ${recipient.numero} - CEP: ${recipient.cep}
+               Para maiores detalhes acesse a sua lista de pedidos.
+               
+               Equipe FastFeet`,
       });
 
       return res.json({
@@ -30,7 +39,7 @@ class OrderController {
         signature_id,
       });
     } catch (e) {
-      return res.status(401).json(e.message);
+      return res.status(401).json({ error: e.message });
     }
   }
 
@@ -56,7 +65,7 @@ class OrderController {
         deliveryman_id,
       });
     } catch (e) {
-      return res.status(401).json(e.message);
+      return res.status(401).json({ error: e.message });
     }
   }
 
@@ -73,7 +82,7 @@ class OrderController {
       order.destroy();
       return res.status(200).json('Pedido excluído com sucesso!');
     } catch (e) {
-      return res.status(401).json(e.message);
+      return res.status(401).json({ error: e.message });
     }
   }
 
@@ -85,7 +94,7 @@ class OrderController {
 
       return res.json(orders);
     } catch (e) {
-      return res.status(401).json(e.message);
+      return res.status(401).json({ error: e.message });
     }
   }
 }

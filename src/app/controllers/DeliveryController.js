@@ -1,7 +1,10 @@
+import Mail from '../../lib/Mail';
+
 import Order from '../models/Order';
 import DeliveryMan from '../models/DeliveryMan';
 import File from '../models/File';
 import Recipient from '../models/Recipient';
+import DeliveryIssues from '../models/DeliveryIssues';
 
 class DeliveryController {
   async index(req, res) {
@@ -14,7 +17,7 @@ class DeliveryController {
           {
             model: Recipient,
             as: 'recipient',
-            attributes: ['nome', 'rua'],
+            attributes: ['nome', 'rua', 'numero', 'cidade', 'cep'],
           },
           {
             model: DeliveryMan,
@@ -69,6 +72,30 @@ class DeliveryController {
       return res.json(order);
     } catch (e) {
       return res.status(401).json(e.message);
+    }
+  }
+
+  async cancelDelivery(req, res) {
+    try {
+      const { cancel_date } = req.body;
+
+      const issue = await DeliveryIssues.findByPk(req.params.id);
+      const order = await Order.findByPk(issue.order_id);
+
+      order.canceled_at = cancel_date;
+      await order.save();
+
+      const deliveryman = await DeliveryMan.findByPk(order.deliveryman_id);
+
+      await Mail.sendMail({
+        to: `${deliveryman.name} <${deliveryman.email}>`,
+        subject: `Pedido ${order.id} cancelado.`,
+        text: `Informamos que o pedido de código ${order.id} foi cancelado.`,
+      });
+
+      return res.json(order);
+    } catch (e) {
+      return res.status(401).json({ error: e.message });
     }
   }
 }
