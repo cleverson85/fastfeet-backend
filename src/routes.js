@@ -16,7 +16,9 @@ import validationOrder from './app/middlewares/validationOrder';
 import validationStartDelivery from './app/middlewares/validationStartDelivery';
 import validationEndDelivery from './app/middlewares/validationEndDelivery';
 import validationCancelDelivery from './app/middlewares/validationCancelDelivery';
+import validationDeliveryMan from './app/middlewares/validationDeliveryMan';
 import validationIssue from './app/middlewares/validationIssue';
+
 
 const routes = new Router();
 const upload = multer(multerConfig);
@@ -38,17 +40,21 @@ routes.use(authentication);
 
 // ROTAS PARA LISTAR PROBLEMAS NA ENTREGA
 routes.get('/deliveryissues', DeliveryIssuesController.index);
-routes.get('/deliveryissues/:order_id/issues', DeliveryIssuesController.issues);
+routes.get('/deliveryissues/:orderid/issues', DeliveryIssuesController.issues);
 
 // ROTAS PARA ADD, ATUALIZAR DESTINATÁRIO
-routes.post('/recipients', validationRecipient, RecipientController.store);
-routes.put('/recipients', validationRecipient, RecipientController.update);
+routes.post('/recipient', validationRecipient, RecipientController.store);
+routes.put('/recipient', validationRecipient, RecipientController.update);
+routes.delete('/recipient/:id', RecipientController.delete);
+routes.get('/recipient', RecipientController.index);
+routes.get('/recipient/:id', RecipientController.index);
 
 // ROTAS PARA ADD, ATUALIZAR, EXCLUIR E LISTAR ENTREGADORES
-routes.post('/deliveryman', DeliveryManController.store);
-routes.put('/deliveryman', DeliveryManController.update);
-routes.delete('/deliveryman', DeliveryManController.delete);
+routes.post('/deliveryman', validationDeliveryMan, DeliveryManController.store);
+routes.put('/deliveryman', validationDeliveryMan, DeliveryManController.update);
+routes.delete('/deliveryman/:id', DeliveryManController.delete);
 routes.get('/deliveryman', DeliveryManController.index);
+routes.get('/deliveryman/:id', DeliveryManController.index);
 
 // ROTAS PARA ADD, ATUALIZAR, EXCLUIR E LISTAR PEDIDOS
 routes.post('/order', validationOrder, OrderController.store);

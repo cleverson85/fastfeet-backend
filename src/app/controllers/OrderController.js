@@ -1,8 +1,10 @@
+import { Op } from 'sequelize';
 import Mail from '../../lib/Mail';
 
 import Order from '../models/Order';
 import DeliveryMan from '../models/DeliveryMan';
 import Recipient from '../models/Recipient';
+import File from '../models/File';
 
 class OrderController {
   async store(req, res) {
@@ -88,9 +90,63 @@ class OrderController {
 
   async index(req, res) {
     try {
-      const orders = await Order.findAll({
-        order: ['product'],
-      });
+      const { productName, page = 1 } = req.query;
+      let orders = null;
+
+      if (!productName) {
+        orders = await Order.findAll({
+          attributes: ['id', 'product', 'start_date', 'end_date', 'canceled_at'],
+          order: ['id'],
+          limit: 10,
+          offset: (page - 1) * 10,
+          include: [
+            {
+              model: Recipient,
+              as: 'recipient',
+              attributes: ['nome', 'rua', 'numero', 'cidade', 'estado', 'cep'],
+            },
+            {
+              model: DeliveryMan,
+              as: 'deliveryMan',
+              attributes: ['name'],
+              include: [
+                {
+                  model: File,
+                  as: 'avatar',
+                  attributes: ['id', 'path', 'url'],
+                },
+              ],
+            },
+          ],
+        });
+      } else {
+        orders = await Order.findAll({
+          where: { product: { [Op.iLike]: `%${productName}%` } },
+          attributes: ['id', 'product', 'start_date', 'end_date', 'canceled_at'],
+          order: ['id'],
+          limit: 10,
+          offset: (page - 1) * 10,
+          include: [
+            {
+              model: Recipient,
+              as: 'recipient',
+              attributes: ['nome', 'rua', 'numero', 'cidade', 'estado', 'cep'],
+            },
+            {
+              model: DeliveryMan,
+              as: 'deliveryMan',
+              attributes: ['name'],
+              include: [
+                {
+                  model: File,
+                  as: 'avatar',
+                  attributes: ['id', 'path', 'url'],
+                },
+              ],
+            },
+          ],
+        });
+      }
 
       return res.json(orders);
     } catch (e) {

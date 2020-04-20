@@ -12,7 +12,7 @@ module.exports = {
     },
     avatar_id: {
       type: Sequelize.INTEGER,
-      references: { model: 'file', key: 'id' },
+      references: { model: 'File', key: 'id' },
       onUpdate: 'CASCADE',
       onDelete: 'SET NULL',
       allowNull: true,
@@ -32,5 +32,5 @@ module.exports = {
     },
   }),
 
-  down: (queryInterface) => queryInterface.dropTable('deliveryman'),
+  down: (queryInterface) => queryInterface.dropTable('DeliveryMan'),
 };

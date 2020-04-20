@@ -12,21 +12,21 @@ module.exports = {
     },
     recipient_id: {
       type: Sequelize.INTEGER,
-      references: { model: 'recipient', key: 'id' },
+      references: { model: 'Recipient', key: 'id' },
       onUpdate: 'CASCADE',
       onDelete: 'SET NULL',
       allowNull: true,
     },
     deliveryman_id: {
       type: Sequelize.INTEGER,
-      references: { model: 'deliveryman', key: 'id' },
+      references: { model: 'DeliveryMan', key: 'id' },
       onUpdate: 'CASCADE',
       onDelete: 'SET NULL',
       allowNull: true,
     },
     signature_id: {
       type: Sequelize.INTEGER,
-      references: { model: 'file', key: 'id' },
+      references: { model: 'File', key: 'id' },
       onUpdate: 'CASCADE',
       onDelete: 'SET NULL',
       allowNull: true,
@@ -53,5 +53,5 @@ module.exports = {
     },
   }),
 
-  down: (queryInterface) => queryInterface.dropTable('order'),
+  down: (queryInterface) => queryInterface.dropTable('Order'),
 };

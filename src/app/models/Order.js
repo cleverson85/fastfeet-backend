@@ -8,7 +8,6 @@ class Order extends Model {
         start_date: DataTypes.DATEONLY,
         end_date: DataTypes.DATEONLY,
         canceled_at: DataTypes.DATEONLY,
-
       },
       {
         sequelize,

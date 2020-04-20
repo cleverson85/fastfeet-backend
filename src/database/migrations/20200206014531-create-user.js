@@ -29,5 +29,5 @@ module.exports = {
     },
   }),
 
-  down: (queryInterface) => queryInterface.dropTable('user'),
+  down: (queryInterface) => queryInterface.dropTable('User'),
 };

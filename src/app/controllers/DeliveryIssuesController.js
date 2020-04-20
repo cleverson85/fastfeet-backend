@@ -5,13 +5,17 @@ import DeliveryIssues from '../models/DeliveryIssues';
 class DeliveryIssuesController {
   async index(req, res) {
     try {
+      const { page = 1 } = req.query;
+
       const deliveryIssues = await DeliveryIssues.findAll({
         attributes: ['id', 'description'],
+        limit: 10,
+        offset: (page - 1) * 10,
         include: [
           {
             model: Order,
             as: 'order',
-            attributes: ['product'],
+            attributes: ['id', 'product'],
             include: [
               {
                 model: Recipient,
@@ -33,7 +37,7 @@ class DeliveryIssuesController {
     try {
       const issues = await DeliveryIssues.findAll({
         where: {
-          order_id: req.params.order_id,
+          order_id: req.params.orderid,
         },
         attributes: ['id', 'description'],
         include: [

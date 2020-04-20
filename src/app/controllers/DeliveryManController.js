@@ -8,14 +8,6 @@ import File from '../models/File';
 class DeliveryManController {
   async store(req, res) {
     try {
-      const deliveryMan = await DeliveryMan.findOne({
-        where: { email: req.body.email },
-      });
-
-      if (deliveryMan) {
-        return res.status(401).json({ error: 'Entregador já cadastrado.' });
-      }
-
       const {
         id,
         name,
@@ -42,11 +34,11 @@ class DeliveryManController {
       }
 
       const {
-        id, name, email,
+        name, email, avatar_id,
       } = await deliveryMan.update(req.body);
 
       return res.json({
-        id, name, email,
+        name, email, avatar_id,
       });
     } catch (e) {
       return res.status(401).json({ error: e.message });
@@ -55,8 +47,10 @@ class DeliveryManController {
 
   async delete(req, res) {
     try {
+      const { id } = req.params;
+
       const deliveryMan = await DeliveryMan.findOne({
-        where: { email: req.body.email },
+        where: { id },
       });
 
       if (!deliveryMan) {
@@ -65,21 +59,17 @@ class DeliveryManController {
 
       const order = await Order.findOne({
         where: {
-          deliveryman_id: deliveryMan.Id, canceled_at: null,
+          deliveryman_id: id, canceled_at: null, start_date: { [Op.ne]: null },
         },
       });
 
       if (order) {
-        return res.status(401).json({ error: 'Entregador entregas pendentes.' });
+        return res.status(400).send({ message: 'Entregador possui entregas pendentes.' });
       }
 
-      deliveryMan.destroy().then((rowDeleted) => {
-        if (rowDeleted === 1) {
-          res.status(200).json(`Entregador ${deliveryMan.name} foi excluído com sucesso!`);
-        }
-      });
+      deliveryMan.destroy();
 
-      return res.status(401).json({ error: 'Não foi possível executar a operação.' });
+      return res.status(200).send({ message: `Entregador ${deliveryMan.name} foi excluído com sucesso!` });
     } catch (e) {
       return res.status(401).json({ error: e.message });
     }
@@ -87,9 +77,51 @@ class DeliveryManController {
 
   async index(req, res) {
     try {
-      const deliveryMans = await DeliveryMan.findAll({
-        order: ['name'],
-      });
+      const { name, page = 1 } = req.query;
+      const { id } = req.params;
+
+      let deliveryMans = null;
+
+      if (id) {
+        deliveryMans = await DeliveryMan.findOne({
+          where: { id },
+          order: ['id'],
+          limit: 10,
+          offset: (page - 1) * 10,
+          include: [
+            {
+              model: File,
+              as: 'avatar',
+              attributes: ['id', 'path', 'url'],
+            },
+          ],
+        });
+      } else if (name) {
+        deliveryMans = await DeliveryMan.findAll({
+          where: { name: { [Op.iLike]: `%${name}%` } },
+          order: ['id'],
+          limit: 10,
+          offset: (page - 1) * 10,
+          include: [
+            {
+              model: File,
+              as: 'avatar',
+              attributes: ['id', 'path', 'url'],
+            },
+          ],
+        });
+      } else {
+        deliveryMans = await DeliveryMan.findAll({
+          order: ['id'],
+          include: [
+            {
+              model: File,
+              as: 'avatar',
+              attributes: ['id', 'path', 'url'],
+            },
+          ],
+        });
+      }
 
       return res.json(deliveryMans);
     } catch (e) {

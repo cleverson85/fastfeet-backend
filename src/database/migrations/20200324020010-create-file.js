@@ -25,5 +25,5 @@ module.exports = {
     },
   }),
 
-  down: (queryInterface) => queryInterface.dropTable('file'),
+  down: (queryInterface) => queryInterface.dropTable('File'),
 };

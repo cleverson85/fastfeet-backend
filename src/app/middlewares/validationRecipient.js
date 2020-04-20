@@ -5,11 +5,14 @@ export default async (req, res, next) => {
     const schema = Yup.object().shape({
       nome: Yup.string().required(),
       rua: Yup.string().required(),
-      numero: Yup.number().required(),
+      numero: Yup.number()
+        .required()
+        .positive()
+        .integer(),
       complemento: Yup.string().required(),
       estado: Yup.string().required(),
       cidade: Yup.string().required(),
-      cep: Yup.number().min(8),
+      cep: Yup.string().required(),
     });
 
     if (!(await schema.isValid(req.body))) {
