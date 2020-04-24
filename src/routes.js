@@ -59,8 +59,9 @@ routes.get('/deliveryman/:id', DeliveryManController.index);
 // ROTAS PARA ADD, ATUALIZAR, EXCLUIR E LISTAR PEDIDOS
 routes.post('/order', validationOrder, OrderController.store);
 routes.put('/order', validationOrder, OrderController.update);
-routes.delete('/order', OrderController.delete);
+routes.delete('/order/:id', OrderController.delete);
 routes.get('/order', OrderController.index);
+routes.get('/order/:id', OrderController.index);
 
 // ROTAS PARA ARQUIVOS
 routes.post('/files', upload.single('file'), FileController.store);

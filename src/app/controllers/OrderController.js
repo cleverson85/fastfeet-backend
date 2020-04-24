@@ -73,8 +73,10 @@ class OrderController {
 
   async delete(req, res) {
     try {
+      const { id } = req.params;
+
       const order = await Order.findOne({
-        where: { id: req.body.id, start_date: null, end_date: null },
+        where: { id, start_date: null, end_date: null },
       });
 
       if (!order) {
@@ -91,9 +93,35 @@ class OrderController {
   async index(req, res) {
     try {
       const { productName, page = 1 } = req.query;
+      const { id } = req.params;
       let orders = null;
 
-      if (!productName) {
+      if (id) {
+        orders = await Order.findOne({
+          where: { id },
+          attributes: ['id', 'product', 'start_date', 'end_date', 'canceled_at'],
+          order: ['id'],
+          include: [
+            {
+              model: Recipient,
+              as: 'recipient',
+              attributes: ['id', 'nome'],
+            },
+            {
+              model: DeliveryMan,
+              as: 'deliveryMan',
+              attributes: ['id', 'name'],
+              include: [
+                {
+                  model: File,
+                  as: 'avatar',
+                  attributes: ['id', 'path', 'url'],
+                },
+              ],
+            },
+          ],
+        });
+      } else if (!productName) {
         orders = await Order.findAll({
           attributes: ['id', 'product', 'start_date', 'end_date', 'canceled_at'],
           order: ['id'],

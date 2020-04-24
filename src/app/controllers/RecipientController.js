@@ -13,7 +13,7 @@ class RecipientController {
       });
 
       if (recipient) {
-        return res.status(401).json({ error: 'Destinatário já cadastrado.' });
+        return res.json({ error: 'Destinatário já cadastrado.' });
       }
 
       const {
@@ -42,7 +42,7 @@ class RecipientController {
       });
 
       if (!recipient) {
-        return res.status(401).json({ error: 'Destinatário não cadastrado.' });
+        return res.json({ error: 'Destinatário não cadastrado.' });
       }
 
       const {
@@ -105,7 +105,7 @@ class RecipientController {
       });
 
       if (!recipient) {
-        return res.status(401).json({ error: 'Destinatário não cadastrado.' });
+        return res.json({ status: 401, error: 'Destinatário não cadastrado.' });
       }
 
       const order = await Order.findOne({
@@ -115,7 +115,7 @@ class RecipientController {
       });
 
       if (order) {
-        return res.status(400).send({ message: 'Destinatário possui entregas pendentes.' });
+        return res.send({ message: 'Destinatário possui entregas pendentes.' });
       }
 
       recipient.destroy();
