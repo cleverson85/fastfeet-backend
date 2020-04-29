@@ -12,16 +12,16 @@ export default async (req, res, next) => {
     });
 
     if (!(await schema.isValid(req.body))) {
-      return res.status(400).json({
-        error: `Informações do pedido estão inválidas. 
-                Data de saída, código pedido e código do entregador devem ser informados.`,
+      return res.send({
+        status: 401, message: `Informações do pedido estão inválidas. 
+      Data de saída, código pedido e código do entregador devem ser informados.`,
       });
     }
 
-    const hora = 10; // new Date().getHours();
+    const hora = new Date().getHours();
 
     if (hora > 18 || hora < 8) {
-      return res.status(401).json({ error: 'Retirada para entrega somente pode ser efetuada entre às 8 e 18hs.' });
+      return res.send({ status: 401, message: 'Retirada para entrega somente pode ser efetuada entre às 8 e 18hs.' });
     }
 
     const { id, deliveryman_id, start_date } = req.body;
@@ -29,13 +29,13 @@ export default async (req, res, next) => {
     let order = await Order.findByPk(id);
 
     if (!order) {
-      return res.status(401).json({ error: 'Pedido não cadastrado.' });
+      return res.send({ status: 401, message: 'Pedido não cadastrado.' });
     }
 
     order = await Order.findOne({ where: { id, start_date: null } });
 
     if (!order) {
-      return res.status(401).json({ error: 'Pedido está em rota de entrega.' });
+      return res.send({ status: 401, message: 'Pedido está em rota de entrega.' });
     }
 
     const parsedDate = parseISO(start_date);
@@ -44,7 +44,7 @@ export default async (req, res, next) => {
     });
 
     if (count.length === 5) {
-      return res.status(401).json({ error: 'Entregador já atingiu o número máximo de pedidos para o dia.' });
+      return res.send({ status: 401, message: 'Entregador já atingiu o número máximo de pedidos para o dia.' });
     }
 
     return next();

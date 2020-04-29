@@ -41,7 +41,7 @@ class OrderController {
         signature_id,
       });
     } catch (e) {
-      return res.status(401).json({ error: e.message });
+      return res.send({ status: 401, message: e.message });
     }
   }
 
@@ -50,7 +50,7 @@ class OrderController {
       const order = await Order.findByPk(req.body.id);
 
       if (!order) {
-        return res.status(401).json({ error: 'Pedido não cadastrado.' });
+        return res.send({ status: 401, message: 'Pedido não cadastrado.' });
       }
 
       const {
@@ -67,7 +67,7 @@ class OrderController {
         deliveryman_id,
       });
     } catch (e) {
-      return res.status(401).json({ error: e.message });
+      return res.send({ status: 401, message: e.message });
     }
   }
 
@@ -80,13 +80,13 @@ class OrderController {
       });
 
       if (!order) {
-        return res.status(401).json({ error: 'Pedido não encontrado ou já entregue.' });
+        return res.send({ status: 401, message: 'Pedido não encontrado ou já entregue.' });
       }
 
       order.destroy();
-      return res.status(200).json('Pedido excluído com sucesso!');
+      return res.send({ status: 200, message: 'Pedido excluído com sucesso!' });
     } catch (e) {
-      return res.status(401).json({ error: e.message });
+      return res.send({ status: 401, message: e.message });
     }
   }
 
@@ -178,7 +178,7 @@ class OrderController {
 
       return res.json(orders);
     } catch (e) {
-      return res.status(401).json({ error: e.message });
+      return res.send({ status: 401, message: e.message });
     }
   }
 }

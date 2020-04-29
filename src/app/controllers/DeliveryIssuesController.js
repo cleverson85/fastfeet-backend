@@ -29,7 +29,7 @@ class DeliveryIssuesController {
 
       return res.json(deliveryIssues);
     } catch (e) {
-      return res.status(401).json({ error: e.message });
+      return res.send({ status: 401, message: e.message });
     }
   }
 
@@ -57,12 +57,12 @@ class DeliveryIssuesController {
       });
 
       if (!issues) {
-        return res.status(401).json({ error: 'Não foram encotrados registros para a pesquisa realizada.' });
+        return res.send({ status: 401, message: 'Não foram encotrados registros para a pesquisa realizada.' });
       }
 
       return res.json(issues);
     } catch (e) {
-      return res.status(401).json({ error: e.message });
+      return res.send({ status: 401, message: e.message });
     }
   }
 
@@ -77,7 +77,7 @@ class DeliveryIssuesController {
         order_id, description,
       });
     } catch (e) {
-      return res.status(401).json({ error: e.message });
+      return res.send({ status: 401, message: e.message });
     }
   }
 }

@@ -19,7 +19,7 @@ class DeliveryManController {
         id, name, email, avatar_id,
       });
     } catch (e) {
-      return res.status(401).json({ error: e.message });
+      return res.send({ status: 401, message: e.message });
     }
   }
 
@@ -30,7 +30,7 @@ class DeliveryManController {
       });
 
       if (!deliveryMan) {
-        return res.status(401).json({ error: 'Entregador não cadastrado.' });
+        return res.send({ status: 401, message: 'Entregador não cadastrado.' });
       }
 
       const {
@@ -41,7 +41,7 @@ class DeliveryManController {
         name, email, avatar_id,
       });
     } catch (e) {
-      return res.status(401).json({ error: e.message });
+      return res.send({ status: 401, message: e.message });
     }
   }
 
@@ -54,7 +54,7 @@ class DeliveryManController {
       });
 
       if (!deliveryMan) {
-        return res.status(401).json({ error: 'Entregador não cadastrado.' });
+        return res.send({ status: 401, message: 'Entregador não cadastrado.' });
       }
 
       const order = await Order.findOne({
@@ -64,14 +64,14 @@ class DeliveryManController {
       });
 
       if (order) {
-        return res.status(400).send({ message: 'Entregador possui entregas pendentes.' });
+        return res.send({ status: 401, message: 'Entregador possui entregas pendentes.' });
       }
 
       deliveryMan.destroy();
 
-      return res.status(200).send({ message: `Entregador ${deliveryMan.name} foi excluído com sucesso!` });
+      return res.send({ status: 200, message: `Entregador ${deliveryMan.name} foi excluído com sucesso!` });
     } catch (e) {
-      return res.status(401).json({ error: e.message });
+      return res.send({ status: 401, message: e.message });
     }
   }
 
@@ -125,7 +125,7 @@ class DeliveryManController {
 
       return res.json(deliveryMans);
     } catch (e) {
-      return res.status(401).json({ error: e.message });
+      return res.send({ status: 401, message: e.message });
     }
   }
 
@@ -167,12 +167,12 @@ class DeliveryManController {
       });
 
       if (!orders) {
-        return res.status(401).json({ error: 'Não foram encotradas encomendas entregues.' });
+        return res.send({ status: 401, message: 'Não foram encotradas encomendas entregues.' });
       }
 
       return res.json(orders);
     } catch (e) {
-      return res.status(401).json({ error: e.message });
+      return res.send({ status: 401, message: e.message });
     }
   }
 }

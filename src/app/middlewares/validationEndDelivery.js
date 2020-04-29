@@ -12,16 +12,18 @@ export default async (req, res, next) => {
     });
 
     if (!(await schema.isValid(req.body))) {
-      return res.status(400).json({
-        error: `Informações do pedido estão inválidas. 
-            Data de entrega, código do pedido e identificador de assinatura devem ser informados.`,
+      return res.send({
+        status: 401, message: `Informações do pedido estão inválidas. 
+      Data de entrega, código do pedido e identificador de assinatura devem ser informados.`,
       });
     }
 
     let order = await Order.findByPk(req.body.id);
 
     if (!order) {
-      return res.status(401).json({ error: 'Pedido não cadastrado.' });
+      return res.send({
+        status: 401, message: 'Pedido não cadastrado.',
+      });
     }
 
     order = await Order.findOne({
@@ -29,11 +31,15 @@ export default async (req, res, next) => {
     });
 
     if (!order) {
-      return res.status(401).json({ error: 'Pedido já foi entregue.' });
+      return res.send({
+        status: 401, message: 'Pedido já foi entregue.',
+      });
     }
 
     return next();
   } catch (e) {
-    return res.status(401).json({ error: e.message });
+    return res.send({
+      status: 401, message: e.message,
+    });
   }
 };

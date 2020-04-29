@@ -13,11 +13,11 @@ class SessionController {
       });
 
       if (!userExists) {
-        return res.status(401).json({ error: 'Usuário não encontrado.' });
+        return res.send({ status: 401, message: 'Usuário não encontrado.' });
       }
 
       if (!(await userExists.checkPassword(password))) {
-        return res.status(401).json({ error: 'Senha inválida.' });
+        return res.send({ status: 401, message: 'Usuário ou senha inválidos.' });
       }
 
       const { id, name } = userExists;

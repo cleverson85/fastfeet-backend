@@ -39,12 +39,12 @@ class DeliveryController {
       });
 
       if (!orders) {
-        return res.status(401).json({ error: 'Não foram encotradas encomendas para entrega.' });
+        return res.send({ status: 401, message: 'Não foram encotradas encomendas para entrega.' });
       }
 
       return res.json(orders);
     } catch (e) {
-      return res.status(401).json(e.message);
+      return res.send({ status: 401, message: e.message });
     }
   }
 
@@ -59,7 +59,7 @@ class DeliveryController {
 
       return res.json(order);
     } catch (e) {
-      return res.status(401).json(e.message);
+      return res.send({ status: 401, message: e.message });
     }
   }
 
@@ -75,7 +75,7 @@ class DeliveryController {
 
       return res.json(order);
     } catch (e) {
-      return res.status(401).json(e.message);
+      return res.send({ status: 401, message: e.message });
     }
   }
 
@@ -99,7 +99,7 @@ class DeliveryController {
 
       return res.json(order);
     } catch (e) {
-      return res.status(401).json({ error: e.message });
+      return res.send({ status: 401, message: e.message });
     }
   }
 }

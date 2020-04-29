@@ -9,18 +9,18 @@ export default async (req, res, next) => {
     });
 
     if (!(await schema.isValid(req.body))) {
-      return res.status(400).json({ error: 'Informações do entregador estão inválidas.' });
+      return res.send({ status: 401, message: 'Informações do entregador estão inválidas.' });
     }
 
     const { email, id } = req.body;
     const deliveryMan = await DeliveryMan.findOne({ where: { email } });
 
     if (deliveryMan && id === null) {
-      return res.status(401).json({ error: 'Email já cadastrado.' });
+      return res.send({ status: 401, message: 'Email já cadastrado.' });
     }
 
     return next();
   } catch (e) {
-    return res.status(401).json({ error: e.message });
+    return res.send({ status: 401, message: e.message });
   }
 };

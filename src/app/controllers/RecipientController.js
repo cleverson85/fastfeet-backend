@@ -13,7 +13,7 @@ class RecipientController {
       });
 
       if (recipient) {
-        return res.json({ error: 'Destinatário já cadastrado.' });
+        return res.send({ status: 401, message: 'Destinatário já cadastrado.' });
       }
 
       const {
@@ -29,7 +29,7 @@ class RecipientController {
         id, nome, rua, complemento, estado, cidade, cep,
       });
     } catch (e) {
-      return res.status(401).json({ error: e.message });
+      return res.status(401).json({ message: e.message });
     }
   }
 
@@ -42,7 +42,7 @@ class RecipientController {
       });
 
       if (!recipient) {
-        return res.json({ error: 'Destinatário não cadastrado.' });
+        return res.send({ status: 401, message: 'Destinatário não cadastrado.' });
       }
 
       const {
@@ -58,7 +58,7 @@ class RecipientController {
         id, nome, rua, complemento, estado, cidade, cep,
       });
     } catch (e) {
-      return res.status(401).json({ error: e.message });
+      return res.send({ status: 401, message: e.message });
     }
   }
 
@@ -92,7 +92,7 @@ class RecipientController {
 
       return res.json(recipients);
     } catch (e) {
-      return res.status(401).json({ error: e.message });
+      return res.send({ status: 401, message: e.message });
     }
   }
 
@@ -105,24 +105,24 @@ class RecipientController {
       });
 
       if (!recipient) {
-        return res.json({ status: 401, error: 'Destinatário não cadastrado.' });
+        return res.send({ status: 401, message: 'Destinatário não cadastrado.' });
       }
 
       const order = await Order.findOne({
         where: {
-          recipient_id: id, canceled_at: null, start_date: { [Op.ne]: null },
+          recipient_id: id, canceled_at: null, end_date: null,
         },
       });
 
       if (order) {
-        return res.send({ message: 'Destinatário possui entregas pendentes.' });
+        return res.send({ status: 401, message: 'Destinatário possui entregas pendentes.' });
       }
 
       recipient.destroy();
 
-      return res.status(200).send({ message: `Destinatário ${recipient.name} foi excluído com sucesso!` });
+      return res.send({ status: 200, message: `Destinatário ${recipient.name} foi excluído com sucesso!` });
     } catch (e) {
-      return res.status(401).json({ error: e.message });
+      return res.status(401).json({ message: e.message });
     }
   }
 }

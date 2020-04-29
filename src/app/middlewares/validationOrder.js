@@ -11,7 +11,7 @@ export default async (req, res, next) => {
     });
 
     if (!(await schema.isValid(req.body))) {
-      return res.status(400).json({ error: 'Informações do pedido estão inválidas.' });
+      return res.send({ status: 401, message: 'Informações do pedido estão inválidas.' });
     }
 
     const { deliveryman_id, recipient_id } = req.body;
@@ -19,17 +19,17 @@ export default async (req, res, next) => {
     const deliveryMan = await DeliveryMan.findByPk(deliveryman_id);
 
     if (!deliveryMan) {
-      return res.status(400).json({ error: 'Entregador não encontrado.' });
+      return res.send({ status: 401, message: 'Entregador não encontrado.' });
     }
 
     const recipient = await Recipient.findByPk(recipient_id);
 
     if (!recipient) {
-      return res.status(400).json({ error: 'Destinatário não encontrado.' });
+      return res.send({ status: 401, message: 'Destinatário não encontrado.' });
     }
 
     return next();
   } catch (e) {
-    return res.status(401).json({ error: e.message });
+    return res.send({ status: 401, message: e.message });
   }
 };

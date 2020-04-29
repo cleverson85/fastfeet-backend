@@ -16,11 +16,11 @@ export default async (req, res, next) => {
     });
 
     if (!(await schema.isValid(req.body))) {
-      return res.status(400).json({ error: 'Erro na validação.' });
+      return res.send({ status: 401, message: 'Erro na validação.' });
     }
 
     return next();
   } catch (e) {
-    return res.status(401).json({ error: e.message });
+    return res.send({ status: 401, message: e.message });
   }
 };
