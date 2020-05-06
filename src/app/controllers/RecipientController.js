@@ -17,17 +17,10 @@ class RecipientController {
       }
 
       const {
-        id,
         nome,
-        rua,
-        complemento,
-        estado,
-        cidade,
       } = await Recipient.create(req.body);
 
-      return res.json({
-        id, nome, rua, complemento, estado, cidade, cep,
-      });
+      return res.send({ status: 200, message: `Destinatário ${nome} cadastrado com sucesso!` });
     } catch (e) {
       return res.status(401).json({ message: e.message });
     }
@@ -46,17 +39,10 @@ class RecipientController {
       }
 
       const {
-        id,
         nome,
-        rua,
-        complemento,
-        estado,
-        cidade,
       } = await recipient.update(req.body);
 
-      return res.json({
-        id, nome, rua, complemento, estado, cidade, cep,
-      });
+      return res.send({ status: 200, message: `Destinatário ${nome} editado com sucesso!` });
     } catch (e) {
       return res.send({ status: 401, message: e.message });
     }
@@ -120,7 +106,7 @@ class RecipientController {
 
       recipient.destroy();
 
-      return res.send({ status: 200, message: `Destinatário ${recipient.name} foi excluído com sucesso!` });
+      return res.send({ status: 200, message: `Destinatário ${recipient.nome} foi excluído com sucesso!` });
     } catch (e) {
       return res.status(401).json({ message: e.message });
     }

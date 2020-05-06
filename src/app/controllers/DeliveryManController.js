@@ -9,15 +9,10 @@ class DeliveryManController {
   async store(req, res) {
     try {
       const {
-        id,
         name,
-        email,
-        avatar_id,
       } = await DeliveryMan.create(req.body);
 
-      return res.json({
-        id, name, email, avatar_id,
-      });
+      return res.send({ status: 200, message: `Entragador ${name} cadastrado com sucesso!` });
     } catch (e) {
       return res.send({ status: 401, message: e.message });
     }
@@ -30,16 +25,14 @@ class DeliveryManController {
       });
 
       if (!deliveryMan) {
-        return res.send({ status: 401, message: 'Entregador não cadastrado.' });
+        return res.send({ status: 401, message: `Entregador ${deliveryMan.name} não encontrado.` });
       }
 
       const {
-        name, email, avatar_id,
+        name,
       } = await deliveryMan.update(req.body);
 
-      return res.json({
-        name, email, avatar_id,
-      });
+      return res.send({ status: 200, message: `Entragador ${name} atualizado com sucesso!` });
     } catch (e) {
       return res.send({ status: 401, message: e.message });
     }
@@ -54,7 +47,7 @@ class DeliveryManController {
       });
 
       if (!deliveryMan) {
-        return res.send({ status: 401, message: 'Entregador não cadastrado.' });
+        return res.send({ status: 401, message: `Entregador ${deliveryMan.name} não encontrado.` });
       }
 
       const order = await Order.findOne({
@@ -64,7 +57,7 @@ class DeliveryManController {
       });
 
       if (order) {
-        return res.send({ status: 401, message: 'Entregador possui entregas pendentes.' });
+        return res.send({ status: 401, message: `Entregador  ${deliveryMan.name} possui entregas pendentes.` });
       }
 
       deliveryMan.destroy();
@@ -167,7 +160,7 @@ class DeliveryManController {
       });
 
       if (!orders) {
-        return res.send({ status: 401, message: 'Não foram encotradas encomendas entregues.' });
+        return res.send({ status: 401, message: 'Não foram encotradas encomendas com entrega confirmada.' });
       }
 
       return res.json(orders);

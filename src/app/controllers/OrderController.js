@@ -14,7 +14,6 @@ class OrderController {
         product,
         recipient_id,
         deliveryman_id,
-        signature_id,
       } = await Order.create(req.body);
 
       const deliveryman = await DeliveryMan.findByPk(deliveryman_id);
@@ -33,13 +32,7 @@ class OrderController {
                Equipe FastFeet`,
       });
 
-      return res.json({
-        id,
-        product,
-        recipient_id,
-        deliveryman_id,
-        signature_id,
-      });
+      return res.send({ status: 200, message: 'Pedido cadastrado com secesso!' });
     } catch (e) {
       return res.send({ status: 401, message: e.message });
     }
@@ -50,22 +43,12 @@ class OrderController {
       const order = await Order.findByPk(req.body.id);
 
       if (!order) {
-        return res.send({ status: 401, message: 'Pedido não cadastrado.' });
+        return res.send({ status: 401, message: 'Pedido não encontrado.' });
       }
 
-      const {
-        id,
-        product,
-        recipient_id,
-        deliveryman_id,
-      } = await order.update(req.body);
+      await order.update(req.body);
 
-      return res.json({
-        id,
-        product,
-        recipient_id,
-        deliveryman_id,
-      });
+      return res.send({ status: 200, message: 'Pedido atualizado com secesso!' });
     } catch (e) {
       return res.send({ status: 401, message: e.message });
     }
@@ -76,11 +59,11 @@ class OrderController {
       const { id } = req.params;
 
       const order = await Order.findOne({
-        where: { id, start_date: null, end_date: null },
+        where: { id },
       });
 
-      if (!order) {
-        return res.send({ status: 401, message: 'Pedido não encontrado ou já entregue.' });
+      if (order && !order.canceled_at) {
+        return res.send({ status: 401, message: 'Somente pedidos com status cancelado podem ser excluídos.' });
       }
 
       order.destroy();
