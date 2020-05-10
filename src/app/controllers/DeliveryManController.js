@@ -124,14 +124,18 @@ class DeliveryManController {
 
   async deliveries(req, res) {
     try {
+      const deliveryMan = await DeliveryMan.findOne({ where: { id: req.params.id } });
+
+      if (!deliveryMan) {
+        return res.send({ status: 401, message: 'Usuário não encontrado.' });
+      }
+
       const orders = await Order.findAll({
         where: {
           deliveryman_id: req.params.id,
-          start_date: { [Op.ne]: null },
-          end_date: { [Op.ne]: null },
           canceled_at: null,
         },
-        attributes: ['product'],
+        attributes: ['product', 'start_date', 'end_date', 'created_at'],
         order: ['product'],
         include: [
           {
