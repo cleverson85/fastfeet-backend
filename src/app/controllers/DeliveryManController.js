@@ -130,18 +130,21 @@ class DeliveryManController {
         return res.send({ status: 401, message: 'Usuário não encontrado.' });
       }
 
+      const { status } = req.query;
+
       const orders = await Order.findAll({
         where: {
           deliveryman_id: req.params.id,
+          end_date: (status === 'E' ? { [Op.ne]: null } : null),
           canceled_at: null,
         },
-        attributes: ['product', 'start_date', 'end_date', 'created_at'],
-        order: ['product'],
+        attributes: ['id', 'product', 'start_date', 'end_date', 'created_at', 'canceled_at'],
+        order: ['id'],
         include: [
           {
             model: Recipient,
             as: 'recipient',
-            attributes: ['nome', 'rua', 'numero', 'cidade', 'cep'],
+            attributes: ['nome', 'rua', 'numero', 'cidade', 'cep', 'estado'],
           },
           {
             model: File,
@@ -151,7 +154,7 @@ class DeliveryManController {
           {
             model: DeliveryMan,
             as: 'deliveryMan',
-            attributes: ['name', 'email'],
+            attributes: ['id', 'name', 'email', 'created_at'],
             include: [
               {
                 model: File,

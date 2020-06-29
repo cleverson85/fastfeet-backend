@@ -4,7 +4,6 @@ import Order from '../models/Order';
 import DeliveryMan from '../models/DeliveryMan';
 import File from '../models/File';
 import Recipient from '../models/Recipient';
-import DeliveryIssues from '../models/DeliveryIssues';
 
 class DeliveryController {
   async index(req, res) {
@@ -81,12 +80,9 @@ class DeliveryController {
 
   async cancelDelivery(req, res) {
     try {
-      const { cancel_date } = req.body;
+      const order = await Order.findByPk(req.params.id);
 
-      const issue = await DeliveryIssues.findByPk(req.params.id);
-      const order = await Order.findByPk(issue.order_id);
-
-      order.canceled_at = cancel_date;
+      order.canceled_at = new Date();
       await order.save();
 
       const deliveryman = await DeliveryMan.findByPk(order.deliveryman_id);
@@ -97,7 +93,7 @@ class DeliveryController {
         text: `Informamos que o pedido de código ${order.id} foi cancelado.`,
       });
 
-      return res.json(order);
+      return res.send({ status: 200, message: 'Pedido cancelado com sucesso.' });
     } catch (e) {
       return res.send({ status: 401, message: e.message });
     }

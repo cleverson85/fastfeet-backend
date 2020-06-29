@@ -19,7 +19,6 @@ import validationCancelDelivery from './app/middlewares/validationCancelDelivery
 import validationDeliveryMan from './app/middlewares/validationDeliveryMan';
 import validationIssue from './app/middlewares/validationIssue';
 
-
 const routes = new Router();
 const upload = multer(multerConfig);
 
@@ -29,10 +28,13 @@ routes.put('/deliveryStart', validationStartDelivery, DeliveryController.startDe
 routes.put('/deliveryEnd', validationEndDelivery, DeliveryController.endDelivery);
 
 // ROTA PARA LISTAR ENTREGAS POR ENTREGADOR
-routes.get('/deliveryman/:id/deliveries', DeliveryManController.deliveries);
+routes.get('/deliveryman/:id/deliveries?:status', DeliveryManController.deliveries);
 
 // ROTA PARA CADASTRO DE PROBLEMAS NA ENTREGA
 routes.post('/deliveryissues', validationIssue, DeliveryIssuesController.issue);
+
+// ROTAS PARA LISTAR PROBLEMAS NA ENTREGA POR PEDIDO
+routes.get('/deliveryissues/:orderid/issues', DeliveryIssuesController.issues);
 
 // AUTENTICAÇÃO
 routes.post('/session', SessionController.store);
@@ -40,7 +42,6 @@ routes.use(authentication);
 
 // ROTAS PARA LISTAR PROBLEMAS NA ENTREGA
 routes.get('/deliveryissues', DeliveryIssuesController.index);
-routes.get('/deliveryissues/:orderid/issues', DeliveryIssuesController.issues);
 
 // ROTAS PARA ADD, ATUALIZAR DESTINATÁRIO
 routes.post('/recipient', validationRecipient, RecipientController.store);

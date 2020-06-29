@@ -9,8 +9,9 @@ class DeliveryIssuesController {
 
       const deliveryIssues = await DeliveryIssues.findAll({
         attributes: ['id', 'description'],
-        limit: 10,
-        offset: (page - 1) * 10,
+        // limit: 10,
+        // offset: (page - 1) * 10,
+        order: ['order_id'],
         include: [
           {
             model: Order,
@@ -35,11 +36,14 @@ class DeliveryIssuesController {
 
   async issues(req, res) {
     try {
+      const { orderid } = req.params;
+
       const issues = await DeliveryIssues.findAll({
         where: {
-          order_id: req.params.orderid,
+          order_id: orderid,
         },
-        attributes: ['id', 'description'],
+        order: ['order_id'],
+        attributes: ['id', 'description', 'created_at'],
         include: [
           {
             model: Order,

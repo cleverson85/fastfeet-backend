@@ -62,9 +62,9 @@ class OrderController {
         where: { id },
       });
 
-      if (order && !order.canceled_at) {
-        return res.send({ status: 401, message: 'Somente pedidos com status cancelado podem ser excluídos.' });
-      }
+      // if (order && !order.canceled_at) {
+      //   return res.send({ status: 401, message: 'Somente pedidos com status cancelado podem ser excluídos.' });
+      // }
 
       order.destroy();
       return res.send({ status: 200, message: 'Pedido excluído com sucesso!' });
@@ -136,7 +136,7 @@ class OrderController {
           attributes: ['id', 'product', 'start_date', 'end_date', 'canceled_at'],
           order: ['id'],
           limit: 10,
-          offset: (page - 1) * 10,
+          ffset: (page - 1) * 10,
           include: [
             {
               model: Recipient,
