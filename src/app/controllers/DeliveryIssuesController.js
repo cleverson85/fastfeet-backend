@@ -5,12 +5,8 @@ import DeliveryIssues from '../models/DeliveryIssues';
 class DeliveryIssuesController {
   async index(req, res) {
     try {
-      const { page = 1 } = req.query;
-
       const deliveryIssues = await DeliveryIssues.findAll({
         attributes: ['id', 'description'],
-        // limit: 10,
-        // offset: (page - 1) * 10,
         order: ['order_id'],
         include: [
           {

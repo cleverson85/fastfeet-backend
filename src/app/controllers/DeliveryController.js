@@ -8,14 +8,10 @@ import Recipient from '../models/Recipient';
 class DeliveryController {
   async index(req, res) {
     try {
-      const { page = 1 } = req.query;
-
       const orders = await Order.findAll({
         where: { deliveryman_id: req.params.id, canceled_at: null, end_date: null },
         attributes: ['product'],
         order: ['product'],
-        limit: 10,
-        offset: (page - 1) * 10,
         include: [
           {
             model: Recipient,

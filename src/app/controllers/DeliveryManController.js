@@ -70,7 +70,7 @@ class DeliveryManController {
 
   async index(req, res) {
     try {
-      const { name, page = 1 } = req.query;
+      const { name } = req.query;
       const { id } = req.params;
 
       let deliveryMans = null;
@@ -79,8 +79,6 @@ class DeliveryManController {
         deliveryMans = await DeliveryMan.findOne({
           where: { id },
           order: ['id'],
-          limit: 10,
-          offset: (page - 1) * 10,
           include: [
             {
               model: File,
@@ -93,8 +91,6 @@ class DeliveryManController {
         deliveryMans = await DeliveryMan.findAll({
           where: { name: { [Op.iLike]: `%${name}%` } },
           order: ['id'],
-          limit: 10,
-          offset: (page - 1) * 10,
           include: [
             {
               model: File,

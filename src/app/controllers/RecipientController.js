@@ -50,7 +50,7 @@ class RecipientController {
 
   async index(req, res) {
     try {
-      const { name, page = 1 } = req.query;
+      const { name } = req.query;
       const { id } = req.params;
       let recipients = null;
 
@@ -58,21 +58,15 @@ class RecipientController {
         recipients = await Recipient.findAll({
           where: { nome: { [Op.iLike]: `%${name}%` } },
           order: ['id'],
-          limit: 10,
-          offset: (page - 1) * 10,
         });
       } else if (id) {
         recipients = await Recipient.findOne({
           where: { id },
           order: ['id'],
-          limit: 10,
-          offset: (page - 1) * 10,
         });
       } else {
         recipients = await Recipient.findAll({
           order: ['id'],
-          limit: 10,
-          offset: (page - 1) * 10,
         });
       }
 

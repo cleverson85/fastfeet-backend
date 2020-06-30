@@ -62,9 +62,9 @@ class OrderController {
         where: { id },
       });
 
-      // if (order && !order.canceled_at) {
-      //   return res.send({ status: 401, message: 'Somente pedidos com status cancelado podem ser excluídos.' });
-      // }
+      if (order && order.start_date) {
+        return res.send({ status: 401, message: 'Não é possível excluir pedido retirado para entrega.' });
+      }
 
       order.destroy();
       return res.send({ status: 200, message: 'Pedido excluído com sucesso!' });
@@ -75,7 +75,7 @@ class OrderController {
 
   async index(req, res) {
     try {
-      const { productName, page = 1 } = req.query;
+      const { productName } = req.query;
       const { id } = req.params;
       let orders = null;
 
@@ -108,8 +108,6 @@ class OrderController {
         orders = await Order.findAll({
           attributes: ['id', 'product', 'start_date', 'end_date', 'canceled_at'],
           order: ['id'],
-          limit: 10,
-          offset: (page - 1) * 10,
           include: [
             {
               model: Recipient,
@@ -135,8 +133,6 @@ class OrderController {
           where: { product: { [Op.iLike]: `%${productName}%` } },
           attributes: ['id', 'product', 'start_date', 'end_date', 'canceled_at'],
           order: ['id'],
-          limit: 10,
-          ffset: (page - 1) * 10,
           include: [
             {
               model: Recipient,
