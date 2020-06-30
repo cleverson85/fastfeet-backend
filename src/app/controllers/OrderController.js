@@ -5,6 +5,7 @@ import Order from '../models/Order';
 import DeliveryMan from '../models/DeliveryMan';
 import Recipient from '../models/Recipient';
 import File from '../models/File';
+import DeliveryIssues from '../models/DeliveryIssues';
 
 class OrderController {
   async store(req, res) {
@@ -62,9 +63,19 @@ class OrderController {
         where: { id },
       });
 
-      if (order && order.start_date) {
+      if (order && order.start_date && !order.canceled_at) {
         return res.send({ status: 401, message: 'Não é possível excluir pedido retirado para entrega.' });
       }
+
+      const issues = await DeliveryIssues.findAll({
+        where: {
+          order_id: id,
+        },
+      });
+
+      issues.forEach((element) => {
+        element.destroy();
+      });
 
       order.destroy();
       return res.send({ status: 200, message: 'Pedido excluído com sucesso!' });

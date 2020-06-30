@@ -1,5 +1,6 @@
-import Mail from '../../lib/Mail';
+import formatISO from 'date-fns/formatISO';
 
+import Mail from '../../lib/Mail';
 import Order from '../models/Order';
 import DeliveryMan from '../models/DeliveryMan';
 import File from '../models/File';
@@ -45,14 +46,12 @@ class DeliveryController {
 
   async startDelivery(req, res) {
     try {
-      const { start_date } = req.body;
-
       const order = await Order.findByPk(req.body.id);
-      order.start_date = start_date;
+      order.start_date = formatISO(new Date());
 
       await order.save();
 
-      return res.json(order);
+      return res.send({ status: 200, message: 'Pedido retirado para entrega com sucesso.' });
     } catch (e) {
       return res.send({ status: 401, message: e.message });
     }
@@ -60,10 +59,10 @@ class DeliveryController {
 
   async endDelivery(req, res) {
     try {
-      const { end_date, signature_id } = req.body;
+      const { signature_id } = req.body;
 
       const order = await Order.findByPk(req.body.id);
-      order.end_date = end_date;
+      order.end_date = formatISO(new Date());
       order.signature_id = signature_id;
 
       await order.save();
@@ -78,7 +77,7 @@ class DeliveryController {
     try {
       const order = await Order.findByPk(req.params.id);
 
-      order.canceled_at = new Date();
+      order.canceled_at = formatISO(new Date());
       await order.save();
 
       const deliveryman = await DeliveryMan.findByPk(order.deliveryman_id);

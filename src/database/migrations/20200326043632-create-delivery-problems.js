@@ -10,7 +10,7 @@ module.exports = {
       type: Sequelize.INTEGER,
       references: { model: 'Order', key: 'id' },
       onUpdate: 'CASCADE',
-      onDelete: 'SET NULL',
+      onDelete: 'CASCADE',
       allowNull: false,
     },
     description: {
@@ -23,7 +23,7 @@ module.exports = {
     },
     updated_at: {
       type: Sequelize.DATE,
-      allowNull: false,
+      allowNull: true,
     },
   }),
 

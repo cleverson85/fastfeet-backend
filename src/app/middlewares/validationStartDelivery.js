@@ -1,5 +1,5 @@
 import * as Yup from 'yup';
-import { parseISO } from 'date-fns';
+import formatISO from 'date-fns/formatISO';
 
 import Order from '../models/Order';
 
@@ -7,16 +7,13 @@ export default async (req, res, next) => {
   try {
     const schema = Yup.object().shape({
       id: Yup.number().required(),
-      deliveryman_id: Yup.number().required(),
-      start_date: Yup.date().required(),
     });
 
     if (!(await schema.isValid(req.body))) {
-      return res.send({
-        status: 401, message: `Informações do pedido estão inválidas. 
-      Data de saída, código pedido e código do entregador devem ser informados.`,
-      });
+      return res.send({ status: 401, message: 'Erro na validação.' });
     }
+
+    const { id } = req.body;
 
     const hora = new Date().getHours();
 
@@ -24,21 +21,15 @@ export default async (req, res, next) => {
       return res.send({ status: 401, message: 'Retirada para entrega somente pode ser efetuada entre às 8 e 18hs.' });
     }
 
-    const { id, deliveryman_id, start_date } = req.body;
-
-    let order = await Order.findByPk(id);
+    const order = await Order.findByPk(id);
 
     if (!order) {
       return res.send({ status: 401, message: 'Pedido não cadastrado.' });
     }
 
-    order = await Order.findOne({ where: { id, start_date: null } });
+    const { deliveryman_id } = order;
+    const parsedDate = formatISO(new Date());
 
-    if (!order) {
-      return res.send({ status: 401, message: 'Pedido está em rota de entrega.' });
-    }
-
-    const parsedDate = parseISO(start_date);
     const count = await Order.findAll({
       where: { deliveryman_id, start_date: parsedDate, canceled_at: null },
     });
@@ -49,6 +40,6 @@ export default async (req, res, next) => {
 
     return next();
   } catch (e) {
-    return res.status(401).json({ error: e.message });
+    return res.send({ status: 401, message: e.message });
   }
 };
