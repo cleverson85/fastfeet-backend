@@ -59,17 +59,17 @@ class DeliveryController {
 
   async endDelivery(req, res) {
     try {
-      const { signature_id } = req.body;
+      const { signature_id, id } = req.body;
 
-      const order = await Order.findByPk(req.body.id);
+      const order = await Order.findByPk(id);
       order.end_date = formatISO(new Date());
       order.signature_id = signature_id;
 
       await order.save();
 
-      return res.json(order);
+      return res.json({ status: 200, message: 'Ok' });
     } catch (e) {
-      return res.send({ status: 401, message: e.message });
+      return res.send({ status: 401, message: 'Ocorreu um erro ao finalizar a entraga, entre em contato com a central' });
     }
   }
 

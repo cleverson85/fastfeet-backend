@@ -12,7 +12,7 @@ class DeliveryIssuesController {
           {
             model: Order,
             as: 'order',
-            attributes: ['id', 'product'],
+            attributes: ['id', 'product', 'signature_id', 'start_date', 'end_date', 'canceled_at'],
             include: [
               {
                 model: Recipient,
@@ -44,7 +44,7 @@ class DeliveryIssuesController {
           {
             model: Order,
             as: 'order',
-            attributes: ['product'],
+            attributes: ['id', 'product', 'signature_id', 'start_date', 'end_date', 'canceled_at'],
             include: [
               {
                 model: Recipient,

@@ -93,13 +93,18 @@ class OrderController {
       if (id) {
         orders = await Order.findOne({
           where: { id },
-          attributes: ['id', 'product', 'start_date', 'end_date', 'canceled_at'],
+          attributes: ['id', 'product', 'signature_id', 'start_date', 'end_date', 'canceled_at'],
           order: ['id'],
           include: [
             {
+              model: File,
+              as: 'signature',
+              attributes: ['id', 'path', 'url'],
+            },
+            {
               model: Recipient,
               as: 'recipient',
-              attributes: ['id', 'nome'],
+              attributes: ['id', 'nome', 'rua', 'numero', 'cidade', 'estado', 'cep'],
             },
             {
               model: DeliveryMan,
@@ -117,9 +122,14 @@ class OrderController {
         });
       } else if (!productName) {
         orders = await Order.findAll({
-          attributes: ['id', 'product', 'start_date', 'end_date', 'canceled_at'],
+          attributes: ['id', 'product', 'signature_id', 'start_date', 'end_date', 'canceled_at'],
           order: ['id'],
           include: [
+            {
+              model: File,
+              as: 'signature',
+              attributes: ['id', 'path', 'url'],
+            },
             {
               model: Recipient,
               as: 'recipient',
@@ -142,9 +152,14 @@ class OrderController {
       } else {
         orders = await Order.findAll({
           where: { product: { [Op.iLike]: `%${productName}%` } },
-          attributes: ['id', 'product', 'start_date', 'end_date', 'canceled_at'],
+          attributes: ['id', 'product', 'signature_id', 'start_date', 'end_date', 'canceled_at'],
           order: ['id'],
           include: [
+            {
+              model: File,
+              as: 'signature',
+              attributes: ['id', 'path', 'url'],
+            },
             {
               model: Recipient,
               as: 'recipient',

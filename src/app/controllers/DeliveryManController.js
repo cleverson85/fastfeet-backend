@@ -126,7 +126,7 @@ class DeliveryManController {
         return res.send({ status: 401, message: 'Usuário não encontrado.' });
       }
 
-      const { status } = req.query;
+      const { status = 'P' } = req.query;
 
       const orders = await Order.findAll({
         where: {

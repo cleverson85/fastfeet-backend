@@ -6,9 +6,7 @@ export default async (req, res, next) => {
       nome: Yup.string().required(),
       rua: Yup.string().required(),
       numero: Yup.number()
-        .required()
-        .positive()
-        .integer(),
+        .required(),
       complemento: Yup.string().required(),
       estado: Yup.string().required(),
       cidade: Yup.string().required(),
@@ -16,7 +14,7 @@ export default async (req, res, next) => {
     });
 
     if (!(await schema.isValid(req.body))) {
-      return res.send({ status: 401, message: 'Erro na validação.' });
+      return res.send({ status: 401, message: 'Erro na validação. Todos os campos são obrigatórios.' });
     }
 
     return next();

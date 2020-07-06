@@ -28,6 +28,7 @@ routes.put('/deliveryStart', validationStartDelivery, DeliveryController.startDe
 routes.put('/deliveryEnd', validationEndDelivery, DeliveryController.endDelivery);
 
 // ROTA PARA LISTAR ENTREGAS POR ENTREGADOR
+routes.get('/deliveryman/:id', DeliveryManController.index);
 routes.get('/deliveryman/:id/deliveries?:status', DeliveryManController.deliveries);
 
 // ROTA PARA CADASTRO DE PROBLEMAS NA ENTREGA
@@ -35,6 +36,9 @@ routes.post('/deliveryissues', validationIssue, DeliveryIssuesController.issue);
 
 // ROTAS PARA LISTAR PROBLEMAS NA ENTREGA POR PEDIDO
 routes.get('/deliveryissues/:orderid/issues', DeliveryIssuesController.issues);
+
+// ROTA PARA UPLOAD DE ASSINATURA
+routes.post('/signature', FileController.storeSignature);
 
 // AUTENTICAÇÃO
 routes.post('/session', SessionController.store);
@@ -64,10 +68,10 @@ routes.delete('/order/:id', OrderController.delete);
 routes.get('/order', OrderController.index);
 routes.get('/order/:id', OrderController.index);
 
-// ROTAS PARA ARQUIVOS
-routes.post('/files', upload.single('file'), FileController.store);
-
 // ROTA PARA CANCELAMENTO DE PEDIDO
 routes.put('/cancelDelivery/:id/cancel', validationCancelDelivery, DeliveryController.cancelDelivery);
+
+// ROTAS PARA ARQUIVOS
+routes.post('/files', upload.single('file'), FileController.store);
 
 export default routes;
