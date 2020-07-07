@@ -1,5 +1,5 @@
 import { Op } from 'sequelize';
-import Mail from '../../lib/Mail';
+import Queue from '../../lib/Queue';
 
 import Order from '../models/Order';
 import DeliveryMan from '../models/DeliveryMan';
@@ -20,17 +20,8 @@ class OrderController {
       const deliveryman = await DeliveryMan.findByPk(deliveryman_id);
       const recipient = await Recipient.findByPk(recipient_id);
 
-      await Mail.sendMail({
-        to: `${deliveryman.name} <${deliveryman.email}>`,
-        subject: 'Pedido está disponível para a retirada',
-        text: `Você tem um produto disponível para retirada e entrega.
-               Cód.: ${id}
-               Nome.: ${product} 
-               Destinatário: ${recipient.nome}
-               Endereço: Rua ${recipient.rua}, N°. ${recipient.numero} - CEP: ${recipient.cep}
-               Para maiores detalhes acesse a sua lista de pedidos.
-               
-               Equipe FastFeet`,
+      await Queue.add('Email', {
+        id, product, deliveryman, recipient,
       });
 
       return res.send({ status: 200, message: 'Pedido cadastrado com secesso!' });
