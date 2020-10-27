@@ -24,12 +24,23 @@ const upload = multer(multerConfig);
 
 // ROTAS PARA LISTAR, INICIAR E FINALIZAR ENTREGA
 routes.get('/delivery/:id', DeliveryController.index);
-routes.put('/deliveryStart', validationStartDelivery, DeliveryController.startDelivery);
-routes.put('/deliveryEnd', validationEndDelivery, DeliveryController.endDelivery);
+routes.put(
+  '/deliveryStart',
+  validationStartDelivery,
+  DeliveryController.startDelivery,
+);
+routes.put(
+  '/deliveryEnd',
+  validationEndDelivery,
+  DeliveryController.endDelivery,
+);
 
 // ROTA PARA LISTAR ENTREGAS POR ENTREGADOR
 routes.get('/deliveryman/:id', DeliveryManController.index);
-routes.get('/deliveryman/:id/deliveries?:status', DeliveryManController.deliveries);
+routes.get(
+  '/deliveryman/:id/deliveries?:status',
+  DeliveryManController.deliveries,
+);
 
 // ROTA PARA CADASTRO DE PROBLEMAS NA ENTREGA
 routes.post('/deliveryissues', validationIssue, DeliveryIssuesController.issue);
@@ -69,7 +80,11 @@ routes.get('/order', OrderController.index);
 routes.get('/order/:id', OrderController.index);
 
 // ROTA PARA CANCELAMENTO DE PEDIDO
-routes.put('/cancelDelivery/:id/cancel', validationCancelDelivery, DeliveryController.cancelDelivery);
+routes.put(
+  '/cancelDelivery/:id/cancel',
+  validationCancelDelivery,
+  DeliveryController.cancelDelivery,
+);
 
 // ROTAS PARA ARQUIVOS
 routes.post('/files', upload.single('file'), FileController.store);
