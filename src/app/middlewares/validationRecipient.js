@@ -7,7 +7,6 @@ export default async (req, res, next) => {
       rua: Yup.string().required(),
       numero: Yup.number()
         .required(),
-      complemento: Yup.string().required(),
       estado: Yup.string().required(),
       cidade: Yup.string().required(),
       cep: Yup.string().required(),

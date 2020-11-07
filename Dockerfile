@@ -1,28 +1,12 @@
-FROM postgres:latest
+FROM node:12 as node
 
-ENV POSTGRES_USER=postgres
-ENV POSTGRES_PASSWORD=docker
-ENV POSTGRES_DB=FastFeet
+WORKDIR /usr/src/app
 
-LABEL version="1.0.0" description="Fast Feet Back-End" maintainer="Cleverson Queiroz"
+COPY ["package.json", "yarn.lock", "./"]
 
-VOLUME /fastfeet_db
-
-EXPOSE 5432
-
-FROM node:12
-
-RUN mkdir source
-
-WORKDIR /source
-COPY . ./source
-
-RUN npm install
-
-RUN npm sequelize db:migrate
-RUN npm sequelize db:seed:all
-
-RUN npm build
+RUN yarn install
+COPY . .
 
 EXPOSE 5555
-CMD npm-run-all -p
+
+CMD ["yarn", "dev"]

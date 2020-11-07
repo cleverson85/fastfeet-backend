@@ -28,10 +28,11 @@ class RecipientController {
 
   async update(req, res) {
     try {
-      const { numero, cep } = req.body;
+      const { cep } = req.body;
 
       const recipient = await Recipient.findOne({
-        where: { [Op.and]: [{ numero }, { cep }] },
+        // where: { [Op.and]: [{ numero }, { cep }] },
+        where: { cep },
       });
 
       if (!recipient) {
