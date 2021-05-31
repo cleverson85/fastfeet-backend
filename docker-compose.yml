@@ -3,22 +3,21 @@ version: '3.6'
 services:
   db:
     image: postgres:13-alpine
-    restart: always
     container_name: postgres
     environment:
-      POSTGRES_USER: postgres
-      POSTGRES_PASSWORD: docker
-      POSTGRES_DB: FastFeet
+      PGHOST: db
+      PGUSER: postgres
+      PGPASSWORD: docker
+      PGDATABASE: FastFeet
     ports:
       - 5432:5432
     networks:
       - backend
     volumes:
-      - ./.docker/db-data:/var/lib/postgresql/data
+      - db-data:/var/lib/postgresql/data
 
   redis:
     image: redis:6-alpine
-    restart: always
     container_name: redis
     ports: 
       - 6379:6379    
@@ -34,7 +33,7 @@ services:
       - db
       - redis
     ports:
-      - 5555:5555
+      - 5556:5556
     networks:
       - backend
 

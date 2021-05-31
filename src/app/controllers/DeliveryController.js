@@ -1,12 +1,13 @@
 import formatISO from 'date-fns/formatISO';
-
 import Mail from '../../lib/Mail';
-import Order from '../models/Order';
 import DeliveryMan from '../models/DeliveryMan';
 import File from '../models/File';
+import Order from '../models/Order';
 import Recipient from '../models/Recipient';
 
 class DeliveryController {
+  /* #swagger.tags = ['Delivery']
+     #swagger.description = 'Endpoint to get all Delivery.' */
   async index(req, res) {
     try {
       const orders = await Order.findAll({
@@ -45,6 +46,8 @@ class DeliveryController {
   }
 
   async startDelivery(req, res) {
+    /* #swagger.tags = ['Delivery']
+       #swagger.description = 'Endpoint to start a Delivery.' */
     try {
       const order = await Order.findByPk(req.body.id);
       order.start_date = formatISO(new Date());
@@ -58,6 +61,8 @@ class DeliveryController {
   }
 
   async endDelivery(req, res) {
+    /* #swagger.tags = ['Delivery']
+       #swagger.description = 'Endpoint to end a Delivery.' */
     try {
       const { signature_id, id } = req.body;
 
@@ -74,6 +79,8 @@ class DeliveryController {
   }
 
   async cancelDelivery(req, res) {
+    /* #swagger.tags = ['Delivery']
+       #swagger.description = 'Endpoint to cancel a Delivery.' */
     try {
       const order = await Order.findByPk(req.params.id);
 

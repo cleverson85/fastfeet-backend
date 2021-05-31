@@ -1,7 +1,7 @@
 import Queue from 'bull';
 import * as jobs from '../app/jobs/Index';
 
-const options = { redis: { port: 6379, host: 'redis', password: '' } };
+const options = { redis: { port: 6379, host: 'localhost', password: '' } };
 
 const queues = Object.values(jobs).map((job) => ({
   bull: new Queue(job.key, options),

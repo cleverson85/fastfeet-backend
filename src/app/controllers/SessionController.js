@@ -1,9 +1,10 @@
 import jwt from 'jsonwebtoken';
-
-import User from '../models/User';
 import auth from '../../config/authConfig';
+import User from '../models/User';
 
 class SessionController {
+  /* #swagger.tags = ['Session']
+     #swagger.description = 'Endpoint to authentication.' */
   async store(req, res) {
     try {
       const { email, password } = req.body;

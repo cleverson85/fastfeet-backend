@@ -4,6 +4,8 @@ import DeliveryIssues from '../models/DeliveryIssues';
 
 class DeliveryIssuesController {
   async index(req, res) {
+    /* #swagger.tags = ['Delivery Issues']
+       #swagger.description = 'Endpoint to get all Delivery Issues.' */
     try {
       const deliveryIssues = await DeliveryIssues.findAll({
         attributes: ['id', 'description'],
@@ -31,6 +33,8 @@ class DeliveryIssuesController {
   }
 
   async issues(req, res) {
+    /* #swagger.tags = ['Delivery Issues']
+       #swagger.description = 'Endpoint to get a Delivery Issues by Order Id.' */
     try {
       const { orderid } = req.params;
 
@@ -67,6 +71,8 @@ class DeliveryIssuesController {
   }
 
   async issue(req, res) {
+    /* #swagger.tags = ['Delivery Issues']
+       #swagger.description = 'Endpoint to post Delivery Issues.' */
     try {
       const {
         order_id,

@@ -16,6 +16,9 @@ module.exports = {
       "class-methods-use-this": "off",
       "no-param-reassign": "off",
       "camelcase": "off",
+      "no-console": "off",
       "no-unused-vars": ["error", { "argsIgnorePattern": "next" }],
+      "global-require": "off",
+      "linebreak-style": "off"
   },
 };

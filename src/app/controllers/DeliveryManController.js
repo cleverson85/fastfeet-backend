@@ -7,18 +7,25 @@ import File from '../models/File';
 
 class DeliveryManController {
   async store(req, res) {
-    try {
-      const {
-        name,
-      } = await DeliveryMan.create(req.body);
+    /* #swagger.tags = ['Delivery Man']
+       #swagger.description = 'Endpoint to post a Delivery Man.' */
 
-      return res.send({ status: 200, message: `Entragador ${name} cadastrado com sucesso!` });
-    } catch (e) {
-      return res.send({ status: 401, message: e.message });
-    }
+    /*  #swagger.parameters['DeliveryMan'] = {
+                in: 'body',
+                description: 'Delivery Man information.',
+                required: true,
+                schema: { $ref: "#/definitions/store" } } */
+
+    const {
+      name,
+    } = await DeliveryMan.create(req.body);
+
+    return res.send({ status: 200, message: `Entragador ${name} cadastrado com sucesso!` });
   }
 
   async update(req, res) {
+    /* #swagger.tags = ['Delivery Man']
+       #swagger.description = 'Endpoint to update a Delivery Man.' */
     try {
       const deliveryMan = await DeliveryMan.findOne({
         where: { email: req.body.email },
@@ -39,6 +46,8 @@ class DeliveryManController {
   }
 
   async delete(req, res) {
+    /* #swagger.tags = ['Delivery Man']
+       #swagger.description = 'Endpoint to delete a Delivery Man.' */
     try {
       const { id } = req.params;
 
@@ -69,6 +78,8 @@ class DeliveryManController {
   }
 
   async index(req, res) {
+    /* #swagger.tags = ['Delivery Man']
+       #swagger.description = 'Endpoint to get Delivery by name or Delivery Man Id.' */
     try {
       const { name } = req.query;
       const { id } = req.params;
@@ -119,6 +130,8 @@ class DeliveryManController {
   }
 
   async deliveries(req, res) {
+    /* #swagger.tags = ['Delivery Man']
+       #swagger.description = 'Endpoint to get delivery by status.' */
     try {
       const deliveryMan = await DeliveryMan.findOne({ where: { id: req.params.id } });
 

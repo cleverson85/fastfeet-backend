@@ -1,10 +1,11 @@
 import { Op } from 'sequelize';
-
-import Recipient from '../models/Recipient';
 import Order from '../models/Order';
+import Recipient from '../models/Recipient';
 
 class RecipientController {
   async store(req, res) {
+    /* #swagger.tags = ['Recipient']
+       #swagger.description = 'Endpoint to post the specific recipient.' */
     try {
       const { numero, cep } = req.body;
 
@@ -27,6 +28,8 @@ class RecipientController {
   }
 
   async update(req, res) {
+    /* #swagger.tags = ['Recipient']
+       #swagger.description = 'Endpoint to update the specific recipient.' */
     try {
       const { cep } = req.body;
 
@@ -50,34 +53,32 @@ class RecipientController {
   }
 
   async index(req, res) {
-    try {
-      const { name } = req.query;
-      const { id } = req.params;
-      let recipients = null;
+    // const { name } = req.query;
+    // const { id } = req.params;
+    // let recipients = null;
 
-      if (name) {
-        recipients = await Recipient.findAll({
-          where: { nome: { [Op.iLike]: `%${name}%` } },
-          order: ['id'],
-        });
-      } else if (id) {
-        recipients = await Recipient.findOne({
-          where: { id },
-          order: ['id'],
-        });
-      } else {
-        recipients = await Recipient.findAll({
-          order: ['id'],
-        });
-      }
+    // if (name) {
+    //   recipients = await Recipient.findAll({
+    //     where: { nome: { [Op.iLike]: `%${name}%` } },
+    //     order: ['id'],
+    //   });
+    // } else if (id) {
+    //   recipients = await Recipient.findOne({
+    //     where: { id },
+    //     order: ['id'],
+    //   });
+    // } else {
+    const recipients = await Recipient.findAll({
+      order: ['id'],
+    });
+    // }
 
-      return res.json(recipients);
-    } catch (e) {
-      return res.send({ status: 401, message: e.message });
-    }
+    return res.json(recipients);
   }
 
   async delete(req, res) {
+    /* #swagger.tags = ['Recipient']
+       #swagger.description = 'Endpoint to delete the specific recipient.' */
     try {
       const { id } = req.params;
 

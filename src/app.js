@@ -1,34 +1,37 @@
-import express from 'express';
-import path from 'path';
 import cors from 'cors';
-import bodyParser from 'body-parser';
-
+import express from 'express';
+import morgan from 'morgan';
+import path from 'path';
+import swaggerUi from 'swagger-ui-express';
+import swaggerFile from '../swagger_output.json';
 import routes from './routes';
-
-import './database';
 
 class App {
   constructor() {
     this.server = express();
     this.middlewares();
     this.routes();
+    this.swagger();
   }
 
   middlewares() {
     this.server.use(cors());
+    this.server.use(morgan('dev'));
 
     const staticFolder = express.static(path.resolve(__dirname, '..', 'temp', 'uploads'));
     this.server.use('/files', staticFolder);
     this.server.use('/signature', staticFolder);
 
-    const jsonParser = bodyParser.json({ limit: 1024 * 1024 * 20, type: 'application/json' });
-    const urlencodedParser = bodyParser.urlencoded({ extended: true, limit: 1024 * 1024 * 20, type: 'application/x-www-form-urlencoded' });
-    this.server.use(jsonParser);
-    this.server.use(urlencodedParser);
+    this.server.use(express.json({ limit: 1024 * 1024 * 20, type: 'application/json' }));
+    this.server.use(express.urlencoded({ extended: true, limit: 1024 * 1024 * 20, type: 'application/x-www-form-urlencoded' }));
   }
 
   routes() {
     this.server.use(routes);
+  }
+
+  swagger() {
+    this.server.use('/doc', swaggerUi.serve, swaggerUi.setup(swaggerFile));
   }
 }
 

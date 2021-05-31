@@ -1,7 +1,11 @@
-CONTAINER_ALREADY_STARTED="CONTAINER_ALREADY_STARTED_PLACEHOLDER"
+#!/bin/sh
 
-if [ ! -e $CONTAINER_ALREADY_STARTED ]; then
-    touch $CONTAINER_ALREADY_STARTED
+echo "Starting"
+
+Starting="CONTAINER_ALREADY_STARTED_PLACEHOLDER"
+
+if [ ! -e $Starting ]; then
+    touch $Starting
     echo "-- First container startup --"
     /bin/sh -c "yarn sequelize db:migrate && yarn sequelize db:seed:all"
 else
