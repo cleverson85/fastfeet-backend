@@ -3,35 +3,32 @@ import auth from '../../config/authConfig';
 import User from '../models/User';
 
 class SessionController {
-  /* #swagger.tags = ['Session']
-     #swagger.description = 'Endpoint to authentication.' */
   async store(req, res) {
-    try {
-      const { email, password } = req.body;
+    /* #swagger.tags = ['Session']
+       #swagger.description = 'Endpoint to authentication.' */
 
-      const userExists = await User.findOne({
-        where: { email },
-      });
+    const { email, password } = req.body;
 
-      if (!userExists) {
-        return res.send({ status: 401, message: 'Usuário não encontrado.' });
-      }
+    const userExists = await User.findOne({
+      where: { email },
+    });
 
-      if (!(await userExists.checkPassword(password))) {
-        return res.send({ status: 401, message: 'Usuário ou senha inválidos.' });
-      }
-
-      const { id, name } = userExists;
-
-      return res.json({
-        user: { id, name, email },
-        token: jwt.sign({ id }, auth.secret, {
-          expiresIn: auth.expiresIn,
-        }),
-      });
-    } catch (e) {
-      return res.status(401).json({ error: e.message });
+    if (!userExists) {
+      return res.send({ status: 401, message: 'Usuário não encontrado.' });
     }
+
+    if (!(await userExists.checkPassword(password))) {
+      return res.send({ status: 401, message: 'Usuário ou senha inválidos.' });
+    }
+
+    const { id, name } = userExists;
+
+    return res.json({
+      user: { id, name, email },
+      token: jwt.sign({ id }, auth.secret, {
+        expiresIn: auth.expiresIn,
+      }),
+    });
   }
 }
 

@@ -6,6 +6,8 @@ import swaggerUi from 'swagger-ui-express';
 import swaggerFile from '../swagger_output.json';
 import routes from './routes';
 
+import './database';
+
 class App {
   constructor() {
     this.server = express();

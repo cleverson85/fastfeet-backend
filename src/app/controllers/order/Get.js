@@ -111,6 +111,4 @@ class OrderMethod {
   }
 }
 
-// module.exports = methods;
-
 export default new OrderMethod();

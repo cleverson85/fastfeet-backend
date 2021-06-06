@@ -34,8 +34,7 @@
     }
   ],
   "schemes": [
-    "http",
-    "https"
+    "http"
   ],
   "consumes": [
     "application/json"
@@ -46,8 +45,10 @@
   "paths": {
     "/delivery/{id}": {
       "get": {
-        "tags": [],
-        "description": "",
+        "tags": [
+          "Delivery"
+        ],
+        "description": "Endpoint to get all Deliveries.",
         "parameters": [
           {
             "name": "id",
@@ -247,8 +248,10 @@
     },
     "/session": {
       "post": {
-        "tags": [],
-        "description": "",
+        "tags": [
+          "Session"
+        ],
+        "description": "Endpoint to authentication.",
         "parameters": [
           {
             "name": "obj",
@@ -266,71 +269,51 @@
             }
           }
         ],
-        "responses": {
-          "401": {
-            "description": "Unauthorized"
-          }
-        }
+        "responses": {}
       }
     },
     "/recipient": {
+      "get": {
+        "tags": [
+          "Recipient"
+        ],
+        "description": "Endpoint to get all recipients.",
+        "parameters": [],
+        "responses": {}
+      },
       "post": {
         "tags": [
           "Recipient"
         ],
         "description": "Endpoint to post the specific recipient.",
-        "parameters": [
-          {
-            "name": "obj",
-            "in": "body",
-            "schema": {
-              "type": "object",
-              "properties": {
-                "numero": {
-                  "example": "any"
-                },
-                "cep": {
-                  "example": "any"
-                }
-              }
-            }
-          }
-        ],
-        "responses": {
-          "401": {
-            "description": "Unauthorized"
-          }
-        }
+        "parameters": [],
+        "responses": {}
       },
       "put": {
         "tags": [
           "Recipient"
         ],
         "description": "Endpoint to update the specific recipient.",
-        "parameters": [
-          {
-            "name": "obj",
-            "in": "body",
-            "schema": {
-              "type": "object",
-              "properties": {
-                "cep": {
-                  "example": "any"
-                }
-              }
-            }
-          }
-        ],
-        "responses": {}
-      },
-      "get": {
-        "tags": [],
-        "description": "",
         "parameters": [],
         "responses": {}
       }
     },
     "/recipient/{id}": {
+      "get": {
+        "tags": [
+          "Recipient"
+        ],
+        "description": "Endpoint to get a specific recipient by id.",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {}
+      },
       "delete": {
         "tags": [
           "Recipient"
@@ -344,18 +327,18 @@
             "type": "string"
           }
         ],
-        "responses": {
-          "401": {
-            "description": "Unauthorized"
-          }
-        }
-      },
+        "responses": {}
+      }
+    },
+    "/recipient/{name}": {
       "get": {
-        "tags": [],
-        "description": "",
+        "tags": [
+          "Recipient"
+        ],
+        "description": "Endpoint to get a recipient by name.",
         "parameters": [
           {
-            "name": "id",
+            "name": "name",
             "in": "path",
             "required": true,
             "type": "string"
@@ -453,7 +436,7 @@
             "description": "Order information.",
             "required": true,
             "schema": {
-              "$ref": "#/definitions/____FUNC____"
+              "$ref": "#/definitions/Order/property/____FUNC____"
             }
           }
         ],
@@ -641,6 +624,13 @@
       "required": [
         "id"
       ]
+    }
+  },
+  "components": {
+    "schemas": {
+      "Order": {
+        "id": ""
+      }
     }
   }
 }

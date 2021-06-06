@@ -79,7 +79,7 @@ class OrderController {
        #swagger.description = 'Endpoint to get all orders.' */
 
     const orders = await OrderMethod.getAll();
-    return res.json({ message: 'aiaiaiaiai', order: orders });
+    return res.json(orders);
   }
 }
 

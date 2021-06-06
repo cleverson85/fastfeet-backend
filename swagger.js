@@ -8,7 +8,7 @@ const doc = {
   },
   host: 'localhost:5555',
   basePath: '/',
-  schemes: ['http', 'https'],
+  schemes: ['http'],
   consumes: ['application/json'],
   produces: ['application/json'],
   tags: [
@@ -37,6 +37,13 @@ const doc = {
       description: 'Endpoints Session',
     },
   ],
+  components: {
+    schemas: {
+      Order: {
+        id: '',
+      },
+    },
+  },
   definitions: {
     addOrder: {
       $product: '',

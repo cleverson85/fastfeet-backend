@@ -5,7 +5,7 @@ import DeliveryIssuesController from './app/controllers/DeliveryIssuesController
 import DeliveryManController from './app/controllers/DeliveryManController';
 import FileController from './app/controllers/FileController';
 import OrderController from './app/controllers/order/OrderController';
-import RecipientController from './app/controllers/RecipientController';
+import RecipientController from './app/controllers/recipient/RecipientController';
 import SessionController from './app/controllers/SessionController';
 import errorHandler from './app/middlewares/errorHandler';
 import validationCancelDelivery from './app/middlewares/validationCancelDelivery';
@@ -59,11 +59,12 @@ router.post('/session', SessionController.store);
 router.get('/deliveryissues', DeliveryIssuesController.index);
 
 // ROTAS PARA ADD, ATUALIZAR DESTINATÁRIO
+router.get('/recipient', RecipientController.index);
+router.get('/recipient/:id', RecipientController.getById);
+router.get('/recipient/:name', RecipientController.getByName);
 router.post('/recipient', validationRecipient, RecipientController.store);
 router.put('/recipient', validationRecipient, RecipientController.update);
 router.delete('/recipient/:id', RecipientController.delete);
-router.get('/recipient', RecipientController.index);
-router.get('/recipient/:id', RecipientController.index);
 
 // ROTAS PARA ADD, ATUALIZAR, EXCLUIR E LISTAR ENTREGADORES
 router.post('/deliveryman', validationDeliveryMan, DeliveryManController.store);

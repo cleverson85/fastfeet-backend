@@ -6,43 +6,40 @@ import Order from '../models/Order';
 import Recipient from '../models/Recipient';
 
 class DeliveryController {
-  /* #swagger.tags = ['Delivery']
-     #swagger.description = 'Endpoint to get all Delivery.' */
   async index(req, res) {
-    try {
-      const orders = await Order.findAll({
-        where: { deliveryman_id: req.params.id, canceled_at: null, end_date: null },
-        attributes: ['product'],
-        order: ['product'],
-        include: [
-          {
-            model: Recipient,
-            as: 'recipient',
-            attributes: ['nome', 'rua', 'numero', 'cidade', 'cep'],
-          },
-          {
-            model: DeliveryMan,
-            as: 'deliveryMan',
-            attributes: ['name'],
-            include: [
-              {
-                model: File,
-                as: 'avatar',
-                attributes: ['id', 'path', 'url'],
-              },
-            ],
-          },
-        ],
-      });
+    /* #swagger.tags = ['Delivery']
+       #swagger.description = 'Endpoint to get all Deliveries.' */
 
-      if (!orders) {
-        return res.send({ status: 401, message: 'Não foram encotradas encomendas para entrega.' });
-      }
+    const orders = await Order.findAll({
+      where: { deliveryman_id: req.params.id, canceled_at: null, end_date: null },
+      attributes: ['product'],
+      order: ['product'],
+      include: [
+        {
+          model: Recipient,
+          as: 'recipient',
+          attributes: ['nome', 'rua', 'numero', 'cidade', 'cep'],
+        },
+        {
+          model: DeliveryMan,
+          as: 'deliveryMan',
+          attributes: ['name'],
+          include: [
+            {
+              model: File,
+              as: 'avatar',
+              attributes: ['id', 'path', 'url'],
+            },
+          ],
+        },
+      ],
+    });
 
-      return res.json(orders);
-    } catch (e) {
-      return res.send({ status: 401, message: e.message });
+    if (!orders) {
+      return res.send({ status: 401, message: 'Não foram encotradas encomendas para entrega.' });
     }
+
+    return res.json(orders);
   }
 
   async startDelivery(req, res) {
