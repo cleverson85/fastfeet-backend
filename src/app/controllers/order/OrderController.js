@@ -12,7 +12,9 @@ class OrderController {
                 in: 'body',
                 description: 'Order information.',
                 required: true,
-                schema: { $ref: "#/definitions/addOrder" } } */
+                type: 'object',
+                schema: { product: '', recipient_id: 0, deliveryman_id: 0 }
+              } */
 
     addOrder(req.body);
     return res.send({ status: 200, message: 'Pedido cadastrado com secesso!' });
@@ -26,7 +28,9 @@ class OrderController {
                 in: 'body',
                 description: 'Order information.',
                 required: true,
-                schema: { $ref: "#/definitions/updateOrder" } } */
+                type: 'object',
+                schema: { id: 0, product: '', recipient_id: 0, deliveryman_id: 0 }
+              } */
 
     updateOrder(req.body);
     return res.send({ status: 200, message: 'Pedido atualizado com secesso!' });
@@ -38,9 +42,8 @@ class OrderController {
 
     /*  #swagger.parameters['id'] = {
                 in: 'params',
-                description: '',
-                required: true }
-                schema: { $ref: "#/definitions/deleteOrder" } } */
+                description: 'Order id',
+                required: true } } */
 
     deleteOrder(req.params);
     return res.send({ status: 200, message: 'Pedido excluído com sucesso!' });
@@ -52,9 +55,8 @@ class OrderController {
 
     /*  #swagger.parameters['id'] = {
                 in: 'path',
-                description: '',
-                required: true,
-                schema: { $ref: "#/definitions/findById" } } */
+                description: 'Order id',
+                required: true } */
 
     const orders = await OrderMethod.getById(req.params);
     return res.json(orders);
@@ -66,9 +68,8 @@ class OrderController {
 
     /*  #swagger.parameters['productName'] = {
                 in: 'path',
-                description: '',
-                required: true,
-                schema: { $ref: "#/definitions/findByProductName" } } */
+                description: 'Product name',
+                required: true } */
 
     const orders = await OrderMethod.getByProductName(req.params);
     return res.json(orders);

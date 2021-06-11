@@ -45,26 +45,28 @@ const doc = {
     },
   },
   definitions: {
-    addOrder: {
-      $product: '',
-      $recipient_id: 0,
-      $deliveryman_id: 0,
+    DeliveryIssues: {
+      order_id: 0,
+      description: '',
     },
-    updateOrder: {
-      $id: 0,
-      $product: '',
-      $recipient_id: 0,
-      $deliveryman_id: 0,
+    DeliveryMan: {
+      name: '',
+      email: '',
     },
-    deleteOrder: {
-      $id: 0,
+    Order: {
+      product: '',
+      start_date: '',
+      end_date: '',
+      canceled_at: '',
     },
-    get: {},
-    findByProductName: {
-      $product: '',
-    },
-    findById: {
-      $id: 0,
+    Recipient: {
+      nome: '',
+      rua: '',
+      numero: 0,
+      complemento: '',
+      estado: '',
+      cidade: '',
+      cep: '',
     },
   },
 };

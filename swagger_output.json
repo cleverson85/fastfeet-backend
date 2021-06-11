@@ -413,12 +413,27 @@
         "description": "Endpoint to post a order.",
         "parameters": [
           {
-            "name": "Order",
+            "name": "New Order",
             "in": "body",
             "description": "Order information.",
             "required": true,
+            "type": "object",
             "schema": {
-              "$ref": "#/definitions/addOrder"
+              "type": "object",
+              "properties": {
+                "product": {
+                  "type": "string",
+                  "example": ""
+                },
+                "recipient_id": {
+                  "type": "number",
+                  "example": 0
+                },
+                "deliveryman_id": {
+                  "type": "number",
+                  "example": 0
+                }
+              }
             }
           }
         ],
@@ -435,8 +450,27 @@
             "in": "body",
             "description": "Order information.",
             "required": true,
+            "type": "object",
             "schema": {
-              "$ref": "#/definitions/Order/property/____FUNC____"
+              "type": "object",
+              "properties": {
+                "id": {
+                  "type": "number",
+                  "example": 0
+                },
+                "product": {
+                  "type": "string",
+                  "example": ""
+                },
+                "recipient_id": {
+                  "type": "number",
+                  "example": 0
+                },
+                "deliveryman_id": {
+                  "type": "number",
+                  "example": 0
+                }
+              }
             }
           }
         ],
@@ -479,10 +513,7 @@
             "in": "path",
             "required": true,
             "type": "string",
-            "description": "",
-            "schema": {
-              "$ref": "#/definitions/findById"
-            }
+            "description": ""
           }
         ],
         "responses": {}
@@ -500,10 +531,7 @@
             "in": "path",
             "required": true,
             "type": "string",
-            "description": "",
-            "schema": {
-              "$ref": "#/definitions/findByProductName"
-            }
+            "description": "Product name"
           }
         ],
         "responses": {}
@@ -536,94 +564,85 @@
     }
   },
   "definitions": {
-    "addOrder": {
+    "DeliveryIssues": {
+      "type": "object",
+      "properties": {
+        "order_id": {
+          "type": "number",
+          "example": 0
+        },
+        "description": {
+          "type": "string",
+          "example": ""
+        }
+      }
+    },
+    "DeliveryMan": {
+      "type": "object",
+      "properties": {
+        "name": {
+          "type": "string",
+          "example": ""
+        },
+        "email": {
+          "type": "string",
+          "example": ""
+        }
+      }
+    },
+    "Order": {
       "type": "object",
       "properties": {
         "product": {
           "type": "string",
           "example": ""
         },
-        "recipient_id": {
-          "type": "number",
-          "example": 0
-        },
-        "deliveryman_id": {
-          "type": "number",
-          "example": 0
-        }
-      },
-      "required": [
-        "product",
-        "recipient_id",
-        "deliveryman_id"
-      ]
-    },
-    "updateOrder": {
-      "type": "object",
-      "properties": {
-        "id": {
-          "type": "number",
-          "example": 0
-        },
-        "product": {
+        "start_date": {
           "type": "string",
           "example": ""
         },
-        "recipient_id": {
-          "type": "number",
-          "example": 0
+        "end_date": {
+          "type": "string",
+          "example": ""
         },
-        "deliveryman_id": {
-          "type": "number",
-          "example": 0
-        }
-      },
-      "required": [
-        "id",
-        "product",
-        "recipient_id",
-        "deliveryman_id"
-      ]
-    },
-    "deleteOrder": {
-      "type": "object",
-      "properties": {
-        "id": {
-          "type": "number",
-          "example": 0
-        }
-      },
-      "required": [
-        "id"
-      ]
-    },
-    "get": {
-      "type": "object",
-      "properties": {}
-    },
-    "findByProductName": {
-      "type": "object",
-      "properties": {
-        "product": {
+        "canceled_at": {
           "type": "string",
           "example": ""
         }
-      },
-      "required": [
-        "product"
-      ]
+      }
     },
-    "findById": {
+    "Recipient": {
       "type": "object",
       "properties": {
-        "id": {
+        "nome": {
+          "type": "string",
+          "example": ""
+        },
+        "rua": {
+          "type": "string",
+          "example": ""
+        },
+        "numero": {
           "type": "number",
           "example": 0
+        },
+        "complemento": {
+          "type": "string",
+          "example": ""
+        },
+        "estado": {
+          "type": "string",
+          "example": ""
+        },
+        "cidade": {
+          "type": "string",
+          "example": ""
+        },
+        "cep": {
+          "type": "string",
+          "example": ""
         }
-      },
-      "required": [
-        "id"
-      ]
+      }
     }
   },
   "components": {
