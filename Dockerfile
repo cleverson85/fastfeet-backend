@@ -1,9 +1,9 @@
 FROM node:12-alpine as node
 
 WORKDIR /app
-COPY ["package*.json", "./"]
+COPY ["package.json", "./"]
 
-RUN npm install
+RUN yarn install
 COPY . .
 
 RUN chmod +x ./entrypoint.sh

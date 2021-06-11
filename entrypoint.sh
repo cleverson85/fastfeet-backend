@@ -12,4 +12,4 @@ else
     echo "-- Not first container startup --"
 fi
 
-/bin/sh -c  "yarn dev"
+/bin/sh -c "yarn dev"

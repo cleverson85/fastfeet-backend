@@ -1,5 +1,6 @@
 import fs from 'fs';
 import { resolve } from 'path';
+import { v4 as uuidv4 } from 'uuid';
 import File from '../models/File';
 
 class FileController {
@@ -15,30 +16,28 @@ class FileController {
   }
 
   async storeSignature(req, res) {
-    try {
-      const { data, id } = req.body;
-      const name = `Encomenda_${id}`;
-      const path = resolve(__dirname, '..', '..', '..', 'temp', 'uploads');
-      const destination = `${path}/${name}.jpeg`;
-      const base64Data = data.replace(/^data:image\/png;base64,/, '');
+    const guid = uuidv4();
 
-      fs.writeFileSync(destination, base64Data, 'base64', (err) => res.json({
-        status: 401, message: err.message,
-      }));
+    const { data } = req.body;
+    const name = `Encomenda_${guid}`;
+    const path = resolve(__dirname, '..', '..', '..', 'temp', 'uploads');
+    const destination = `${path}/${name}.jpeg`;
+    const base64Data = data.replace(/^data:image\/png;base64,/, '');
 
-      const fileData = { name, path: `${name}.jpeg` };
-      let file = await File.findOne({ where: { name } });
+    fs.writeFileSync(destination, base64Data, 'base64', (err) => res.json({
+      status: 401, message: err.message,
+    }));
 
-      if (file) {
-        await file.update(fileData);
-      } else {
-        file = await File.create(fileData);
-      }
+    const fileData = { name, path: `${name}.jpeg` };
+    let file = await File.findOne({ where: { name } });
 
-      return res.json(file);
-    } catch (e) {
-      return res.status().send({ status: 401, message: 'Ocorreu um erro, entre em contato com a central.' });
+    if (file) {
+      await file.update(fileData);
+    } else {
+      file = await File.create(fileData);
     }
+
+    return res.json(file);
   }
 }
 

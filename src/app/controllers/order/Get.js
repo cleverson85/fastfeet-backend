@@ -5,34 +5,40 @@ import Order from '../../models/Order';
 import Recipient from '../../models/Recipient';
 
 class OrderMethod {
-  async getAll() {
-    const orders = await Order.findAll({
-      attributes: ['id', 'product', 'signature_id', 'start_date', 'end_date', 'canceled_at'],
-      order: ['id'],
+  getInclues() {
+    return [{
+      model: File,
+      as: 'signature',
+      attributes: ['id', 'path', 'url'],
+    },
+    {
+      model: Recipient,
+      as: 'recipient',
+      attributes: ['nome', 'rua', 'numero', 'cidade', 'estado', 'cep'],
+    },
+    {
+      model: DeliveryMan,
+      as: 'deliveryMan',
+      attributes: ['name'],
       include: [
         {
           model: File,
-          as: 'signature',
+          as: 'avatar',
           attributes: ['id', 'path', 'url'],
         },
-        {
-          model: Recipient,
-          as: 'recipient',
-          attributes: ['nome', 'rua', 'numero', 'cidade', 'estado', 'cep'],
-        },
-        {
-          model: DeliveryMan,
-          as: 'deliveryMan',
-          attributes: ['name'],
-          include: [
-            {
-              model: File,
-              as: 'avatar',
-              attributes: ['id', 'path', 'url'],
-            },
-          ],
-        },
       ],
+    }];
+  }
+
+  getAtributes() {
+    return ['id', 'product', 'signature_id', 'start_date', 'end_date', 'canceled_at'];
+  }
+
+  async getAll() {
+    const orders = await Order.findAll({
+      attributes: this.getAtributes(),
+      order: ['id'],
+      include: this.getInclues(),
     });
 
     return orders;
@@ -43,32 +49,9 @@ class OrderMethod {
 
     const orders = await Order.findAll({
       where: { product: { [Op.iLike]: `%${productName}%` } },
-      attributes: ['id', 'product', 'signature_id', 'start_date', 'end_date', 'canceled_at'],
+      attributes: this.getAtributes(),
       order: ['id'],
-      include: [
-        {
-          model: File,
-          as: 'signature',
-          attributes: ['id', 'path', 'url'],
-        },
-        {
-          model: Recipient,
-          as: 'recipient',
-          attributes: ['nome', 'rua', 'numero', 'cidade', 'estado', 'cep'],
-        },
-        {
-          model: DeliveryMan,
-          as: 'deliveryMan',
-          attributes: ['name'],
-          include: [
-            {
-              model: File,
-              as: 'avatar',
-              attributes: ['id', 'path', 'url'],
-            },
-          ],
-        },
-      ],
+      include: this.getInclues(),
     });
 
     return orders;
@@ -79,32 +62,9 @@ class OrderMethod {
 
     const orders = await Order.findOne({
       where: { id },
-      attributes: ['id', 'product', 'signature_id', 'start_date', 'end_date', 'canceled_at'],
+      attributes: this.getAtributes(),
       order: ['id'],
-      include: [
-        {
-          model: File,
-          as: 'signature',
-          attributes: ['id', 'path', 'url'],
-        },
-        {
-          model: Recipient,
-          as: 'recipient',
-          attributes: ['id', 'nome', 'rua', 'numero', 'cidade', 'estado', 'cep'],
-        },
-        {
-          model: DeliveryMan,
-          as: 'deliveryMan',
-          attributes: ['id', 'name'],
-          include: [
-            {
-              model: File,
-              as: 'avatar',
-              attributes: ['id', 'path', 'url'],
-            },
-          ],
-        },
-      ],
+      include: this.getInclues(),
     });
 
     return orders;

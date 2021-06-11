@@ -109,44 +109,7 @@
         "responses": {}
       }
     },
-    "/deliveryman/{id}": {
-      "get": {
-        "tags": [
-          "Delivery Man"
-        ],
-        "description": "Endpoint to get Delivery by name or Delivery Man Id.",
-        "parameters": [
-          {
-            "name": "id",
-            "in": "path",
-            "required": true,
-            "type": "string"
-          },
-          {
-            "name": "name",
-            "in": "query",
-            "type": "string"
-          }
-        ],
-        "responses": {}
-      },
-      "delete": {
-        "tags": [
-          "Delivery Man"
-        ],
-        "description": "Endpoint to delete a Delivery Man.",
-        "parameters": [
-          {
-            "name": "id",
-            "in": "path",
-            "required": true,
-            "type": "string"
-          }
-        ],
-        "responses": {}
-      }
-    },
-    "/deliveryman/{id}/{deliveries?status}": {
+    "/deliveryman/{id}/status/{status}": {
       "get": {
         "tags": [
           "Delivery Man"
@@ -160,15 +123,132 @@
             "type": "string"
           },
           {
-            "name": "deliveries?status",
+            "name": "status",
             "in": "path",
             "required": true,
             "type": "string"
-          },
+          }
+        ],
+        "responses": {}
+      }
+    },
+    "/deliveryman": {
+      "get": {
+        "tags": [
+          "Delivery Man"
+        ],
+        "description": "Endpoint to get all Delivery Man.",
+        "parameters": [],
+        "responses": {}
+      },
+      "post": {
+        "tags": [
+          "Delivery Man"
+        ],
+        "description": "Endpoint to post a Delivery Man.",
+        "parameters": [
           {
-            "name": "where",
-            "in": "query",
-            "type": "string"
+            "name": "DeliveryMan",
+            "in": "body",
+            "description": "Delivery Man information.",
+            "required": true,
+            "schema": {
+              "type": "object",
+              "properties": {
+                "name": {
+                  "type": "string",
+                  "example": ""
+                },
+                "email": {
+                  "type": "string",
+                  "example": ""
+                }
+              }
+            }
+          }
+        ],
+        "responses": {}
+      },
+      "put": {
+        "tags": [
+          "Delivery Man"
+        ],
+        "description": "Endpoint to update a Delivery Man.",
+        "parameters": [
+          {
+            "name": "DeliveryMan",
+            "in": "body",
+            "description": "Delivery Man information.",
+            "required": true,
+            "schema": {
+              "type": "object",
+              "properties": {
+                "id": {
+                  "type": "number",
+                  "example": 0
+                },
+                "name": {
+                  "type": "string",
+                  "example": ""
+                },
+                "email": {
+                  "type": "string",
+                  "example": ""
+                }
+              }
+            }
+          }
+        ],
+        "responses": {}
+      }
+    },
+    "/deliveryman/name/{name}": {
+      "get": {
+        "tags": [
+          "Delivery Man"
+        ],
+        "description": "Endpoint to get a Delivery Man by name.",
+        "parameters": [
+          {
+            "name": "name",
+            "in": "path",
+            "required": true,
+            "type": "string",
+            "description": "Delivery Man name"
+          }
+        ],
+        "responses": {}
+      }
+    },
+    "/deliveryman/{id}": {
+      "delete": {
+        "tags": [
+          "Delivery Man"
+        ],
+        "description": "Endpoint to delete a Delivery Man.",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "type": "string",
+            "description": "Delivery Man id"
+          }
+        ],
+        "responses": {}
+      },
+      "get": {
+        "tags": [
+          "Delivery Man"
+        ],
+        "description": "Endpoint to get a Delivery Man by id.",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "type": "string",
+            "description": "Delivery Man id"
           }
         ],
         "responses": {}
@@ -235,9 +315,6 @@
               "properties": {
                 "data": {
                   "example": "any"
-                },
-                "id": {
-                  "example": "any"
                 }
               }
             }
@@ -286,7 +363,48 @@
           "Recipient"
         ],
         "description": "Endpoint to post the specific recipient.",
-        "parameters": [],
+        "parameters": [
+          {
+            "name": "Recipient",
+            "in": "body",
+            "description": "Recipient information.",
+            "required": true,
+            "type": "object",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "nome": {
+                  "type": "string",
+                  "example": ""
+                },
+                "rua": {
+                  "type": "string",
+                  "example": ""
+                },
+                "numero": {
+                  "type": "number",
+                  "example": 0
+                },
+                "complemento": {
+                  "type": "string",
+                  "example": ""
+                },
+                "estado": {
+                  "type": "string",
+                  "example": ""
+                },
+                "cidade": {
+                  "type": "string",
+                  "example": ""
+                },
+                "cep": {
+                  "type": "string",
+                  "example": ""
+                }
+              }
+            }
+          }
+        ],
         "responses": {}
       },
       "put": {
@@ -294,7 +412,52 @@
           "Recipient"
         ],
         "description": "Endpoint to update the specific recipient.",
-        "parameters": [],
+        "parameters": [
+          {
+            "name": "Recipient",
+            "in": "body",
+            "description": "Recipient information.",
+            "required": true,
+            "type": "object",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "id": {
+                  "type": "number",
+                  "example": 0
+                },
+                "nome": {
+                  "type": "string",
+                  "example": ""
+                },
+                "rua": {
+                  "type": "string",
+                  "example": ""
+                },
+                "numero": {
+                  "type": "number",
+                  "example": 0
+                },
+                "complemento": {
+                  "type": "string",
+                  "example": ""
+                },
+                "estado": {
+                  "type": "string",
+                  "example": ""
+                },
+                "cidade": {
+                  "type": "string",
+                  "example": ""
+                },
+                "cep": {
+                  "type": "string",
+                  "example": ""
+                }
+              }
+            }
+          }
+        ],
         "responses": {}
       }
     },
@@ -330,7 +493,7 @@
         "responses": {}
       }
     },
-    "/recipient/{name}": {
+    "/recipient/name/{name}": {
       "get": {
         "tags": [
           "Recipient"
@@ -341,65 +504,8 @@
             "name": "name",
             "in": "path",
             "required": true,
-            "type": "string"
-          }
-        ],
-        "responses": {}
-      }
-    },
-    "/deliveryman": {
-      "post": {
-        "tags": [
-          "Delivery Man"
-        ],
-        "description": "Endpoint to post a Delivery Man.",
-        "parameters": [
-          {
-            "name": "DeliveryMan",
-            "in": "body",
-            "description": "Delivery Man information.",
-            "required": true,
-            "schema": {
-              "$ref": "#/definitions/store"
-            }
-          }
-        ],
-        "responses": {}
-      },
-      "put": {
-        "tags": [
-          "Delivery Man"
-        ],
-        "description": "Endpoint to update a Delivery Man.",
-        "parameters": [
-          {
-            "name": "obj",
-            "in": "body",
-            "schema": {
-              "type": "object",
-              "properties": {
-                "email": {
-                  "example": "any"
-                },
-                "id": {
-                  "example": "any"
-                }
-              }
-            }
-          }
-        ],
-        "responses": {}
-      },
-      "get": {
-        "tags": [
-          "Delivery Man"
-        ],
-        "description": "Endpoint to get Delivery by name or Delivery Man Id.",
-        "parameters": [
-          {
-            "name": "name",
-            "in": "query",
-            "type": "string"
+            "type": "string",
+            "description": "Recipient name"
           }
         ],
         "responses": {}
@@ -413,7 +519,7 @@
         "description": "Endpoint to post a order.",
         "parameters": [
           {
-            "name": "New Order",
+            "name": "Order",
             "in": "body",
             "description": "Order information.",
             "required": true,
@@ -497,7 +603,7 @@
             "in": "params",
             "required": true,
             "type": "string",
-            "description": ""
+            "description": "Order id"
           }
         ],
         "responses": {}
@@ -513,13 +619,13 @@
             "in": "path",
             "required": true,
             "type": "string",
-            "description": ""
+            "description": "Order id"
           }
         ],
         "responses": {}
       }
     },
-    "/order/{productName}": {
+    "/order/name/{productName}": {
       "get": {
         "tags": [
           "Order"

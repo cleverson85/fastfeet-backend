@@ -3,3 +3,4 @@ temp/uploads/*
 !temp/uploads/.gitkeep
 src/queues
 .docker
+.env

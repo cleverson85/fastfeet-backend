@@ -5,10 +5,9 @@ services:
     image: postgres:13-alpine
     container_name: postgres
     environment:
-      PGHOST: db
-      PGUSER: postgres
-      PGPASSWORD: docker
-      PGDATABASE: FastFeet
+      POSTGRES_USER: ${POSTGRES_USER}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+      POSTGRES_DB: ${POSTGRES_DB}
     ports:
       - 5432:5432
     networks:
@@ -19,21 +18,23 @@ services:
   redis:
     image: redis:6-alpine
     container_name: redis
-    ports: 
-      - 6379:6379    
+    ports:
+      - 6379:6379
     networks:
       - backend
 
   api:
-    build: 
+    build:
       context: .
       dockerfile: Dockerfile
     container_name: fastfeet-api
+    environment:
+      API_ENVIRONMENT: docker
     depends_on:
       - db
       - redis
     ports:
-      - 5556:5556
+      - 5555:5555
     networks:
       - backend
 

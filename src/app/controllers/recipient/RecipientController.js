@@ -53,7 +53,7 @@ class RecipientController {
     /* #swagger.tags = ['Recipient']
        #swagger.description = 'Endpoint to get all recipients.' */
 
-    const recipients = RecipientMethod.getAllRecipients();
+    const recipients = await RecipientMethod.getAllRecipients();
     return res.json(recipients);
   }
 
@@ -66,7 +66,7 @@ class RecipientController {
                 description: 'Recipient name',
                 required: true } */
 
-    const recipients = RecipientMethod.getByName(req.params);
+    const recipients = await RecipientMethod.getByName(req.params);
     return res.json(recipients);
   }
 
@@ -74,7 +74,7 @@ class RecipientController {
     /* #swagger.tags = ['Recipient']
        #swagger.description = 'Endpoint to get a specific recipient by id.' */
 
-    const recipients = RecipientMethod.getById(req.params);
+    const recipients = await RecipientMethod.getById(req.params);
     return res.json(recipients);
   }
 

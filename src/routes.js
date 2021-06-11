@@ -1,8 +1,8 @@
 import { Router } from 'express';
 import multer from 'multer';
-import DeliveryController from './app/controllers/DeliveryController';
-import DeliveryIssuesController from './app/controllers/DeliveryIssuesController';
-import DeliveryManController from './app/controllers/DeliveryManController';
+import DeliveryController from './app/controllers/delivery/DeliveryController';
+import DeliveryIssuesController from './app/controllers/deliveryIssues/DeliveryIssuesController';
+import DeliveryManController from './app/controllers/deliveryMan/DeliveryManController';
 import FileController from './app/controllers/FileController';
 import OrderController from './app/controllers/order/OrderController';
 import RecipientController from './app/controllers/recipient/RecipientController';
@@ -36,11 +36,15 @@ router.put(
 );
 
 // ROTA PARA LISTAR ENTREGAS POR ENTREGADOR
-router.get('/deliveryman/:id', DeliveryManController.index);
-router.get(
-  '/deliveryman/:id/deliveries?:status',
-  DeliveryManController.deliveries,
-);
+router.get('/deliveryman/:id/status/:status', DeliveryManController.deliveries);
+
+// ROTAS PARA ADD, ATUALIZAR, EXCLUIR E LISTAR ENTREGADORES
+router.get('/deliveryman', DeliveryManController.index);
+router.get('/deliveryman/name/:name', DeliveryManController.findByName);
+router.post('/deliveryman', validationDeliveryMan, DeliveryManController.store);
+router.put('/deliveryman', validationDeliveryMan, DeliveryManController.update);
+router.delete('/deliveryman/:id', DeliveryManController.delete);
+router.get('/deliveryman/:id', DeliveryManController.findById);
 
 // ROTA PARA CADASTRO DE PROBLEMAS NA ENTREGA
 router.post('/deliveryissues', validationIssue, DeliveryIssuesController.issue);
@@ -61,24 +65,17 @@ router.get('/deliveryissues', DeliveryIssuesController.index);
 // ROTAS PARA ADD, ATUALIZAR DESTINATÁRIO
 router.get('/recipient', RecipientController.index);
 router.get('/recipient/:id', RecipientController.getById);
-router.get('/recipient/:name', RecipientController.getByName);
+router.get('/recipient/name/:name', RecipientController.getByName);
 router.post('/recipient', validationRecipient, RecipientController.store);
 router.put('/recipient', validationRecipient, RecipientController.update);
 router.delete('/recipient/:id', RecipientController.delete);
-
-// ROTAS PARA ADD, ATUALIZAR, EXCLUIR E LISTAR ENTREGADORES
-router.post('/deliveryman', validationDeliveryMan, DeliveryManController.store);
-router.put('/deliveryman', validationDeliveryMan, DeliveryManController.update);
-router.delete('/deliveryman/:id', DeliveryManController.delete);
-router.get('/deliveryman', DeliveryManController.index);
-router.get('/deliveryman/:id', DeliveryManController.index);
 
 // ROTAS PARA ADD, ATUALIZAR, EXCLUIR E LISTAR PEDIDOS
 router.post('/order', OrderController.store);
 router.put('/order', validationOrder, OrderController.update);
 router.delete('/order/:id', OrderController.delete);
 router.get('/order/:id', OrderController.findById);
-router.get('/order/:productName', OrderController.findByProductName);
+router.get('/order/name/:productName', OrderController.findByProductName);
 router.get('/order', OrderController.index);
 
 // ROTA PARA CANCELAMENTO DE PEDIDO

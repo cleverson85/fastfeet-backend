@@ -1,4 +1,8 @@
+require('dotenv').config({
+  path: process.env.API_ENVIRONMENT === 'docker' ? '.env.docker' : '.env',
+});
+
 export default {
-  secret: '7f8bacc4e36fbec6e0dd1d3c5b35cd5a',
+  secret: process.env.SECRET_API,
   expiresIn: '7d',
 };

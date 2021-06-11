@@ -45,7 +45,14 @@ class OrderController {
                 description: 'Order id',
                 required: true } } */
 
-    deleteOrder(req.params);
+    const order = await OrderMethod.getById(req.params);
+
+    if (order && order.start_date && !order.canceled_at) {
+      return res.send({ status: 404, message: 'Não é possível excluir pedido retirado para entrega.' });
+    }
+
+    deleteOrder(order);
+
     return res.send({ status: 200, message: 'Pedido excluído com sucesso!' });
   }
 
