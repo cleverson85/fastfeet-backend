@@ -132,6 +132,101 @@
         "responses": {}
       }
     },
+    "/deliveryissues": {
+      "post": {
+        "tags": [
+          "Delivery Issues"
+        ],
+        "description": "Endpoint to post Delivery Issues.",
+        "parameters": [
+          {
+            "name": "obj",
+            "in": "body",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "order_id": {
+                  "example": "any"
+                }
+              }
+            }
+          }
+        ],
+        "responses": {}
+      },
+      "get": {
+        "tags": [
+          "Delivery Issues"
+        ],
+        "description": "Endpoint to get all Delivery Issues.",
+        "parameters": [],
+        "responses": {}
+      }
+    },
+    "/deliveryissues/{orderid}/issues": {
+      "get": {
+        "tags": [
+          "Delivery Issues"
+        ],
+        "description": "Endpoint to get a Delivery Issues by Order Id.",
+        "parameters": [
+          {
+            "name": "orderid",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {}
+      }
+    },
+    "/signature": {
+      "post": {
+        "tags": [],
+        "description": "",
+        "parameters": [
+          {
+            "name": "obj",
+            "in": "body",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "data": {
+                  "example": "any"
+                }
+              }
+            }
+          }
+        ],
+        "responses": {}
+      }
+    },
+    "/session": {
+      "post": {
+        "tags": [
+          "Session"
+        ],
+        "description": "Endpoint to authentication.",
+        "parameters": [
+          {
+            "name": "obj",
+            "in": "body",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "email": {
+                  "example": "any"
+                },
+                "password": {
+                  "example": "any"
+                }
+              }
+            }
+          }
+        ],
+        "responses": {}
+      }
+    },
     "/deliveryman": {
       "get": {
         "tags": [
@@ -249,101 +344,6 @@
             "required": true,
             "type": "string",
             "description": "Delivery Man id"
-          }
-        ],
-        "responses": {}
-      }
-    },
-    "/deliveryissues": {
-      "post": {
-        "tags": [
-          "Delivery Issues"
-        ],
-        "description": "Endpoint to post Delivery Issues.",
-        "parameters": [
-          {
-            "name": "obj",
-            "in": "body",
-            "schema": {
-              "type": "object",
-              "properties": {
-                "order_id": {
-                  "example": "any"
-                }
-              }
-            }
-          }
-        ],
-        "responses": {}
-      },
-      "get": {
-        "tags": [
-          "Delivery Issues"
-        ],
-        "description": "Endpoint to get all Delivery Issues.",
-        "parameters": [],
-        "responses": {}
-      }
-    },
-    "/deliveryissues/{orderid}/issues": {
-      "get": {
-        "tags": [
-          "Delivery Issues"
-        ],
-        "description": "Endpoint to get a Delivery Issues by Order Id.",
-        "parameters": [
-          {
-            "name": "orderid",
-            "in": "path",
-            "required": true,
-            "type": "string"
-          }
-        ],
-        "responses": {}
-      }
-    },
-    "/signature": {
-      "post": {
-        "tags": [],
-        "description": "",
-        "parameters": [
-          {
-            "name": "obj",
-            "in": "body",
-            "schema": {
-              "type": "object",
-              "properties": {
-                "data": {
-                  "example": "any"
-                }
-              }
-            }
-          }
-        ],
-        "responses": {}
-      }
-    },
-    "/session": {
-      "post": {
-        "tags": [
-          "Session"
-        ],
-        "description": "Endpoint to authentication.",
-        "parameters": [
-          {
-            "name": "obj",
-            "in": "body",
-            "schema": {
-              "type": "object",
-              "properties": {
-                "email": {
-                  "example": "any"
-                },
-                "password": {
-                  "example": "any"
-                }
-              }
-            }
           }
         ],
         "responses": {}

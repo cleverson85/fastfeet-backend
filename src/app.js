@@ -17,7 +17,7 @@ class App {
   }
 
   middlewares() {
-    this.server.use(cors());
+    this.server.use(cors({ origin: '*' }));
     this.server.use(morgan('dev'));
 
     const staticFolder = express.static(path.resolve(__dirname, '..', 'temp', 'uploads'));

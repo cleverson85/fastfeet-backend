@@ -39,9 +39,6 @@ const doc = {
   ],
   components: {
     schemas: {
-      Order: {
-        id: '',
-      },
     },
   },
   definitions: {

@@ -6,9 +6,9 @@
   "license": "MIT",
   "scripts": {
     "dev": "npm-run-all -p dev:*",
-    "dev:autogen": "node swagger.js",
     "dev:queue": "nodemon src/queue.js",
-    "dev:debug": "nodemon --inspect src/server.js"
+    "dev:debug": "nodemon --inspect src/server.js",
+    "swagger-autogen": "node swagger.js"
   },
   "devDependencies": {
     "@types/express": "^4.17.12",

@@ -16,6 +16,7 @@ import validationOrder from './app/middlewares/validationOrder';
 import validationRecipient from './app/middlewares/validationRecipient';
 import validationStartDelivery from './app/middlewares/validationStartDelivery';
 import multerConfig from './config/multer';
+import authentication from './app/middlewares/authentication';
 
 require('express-async-errors');
 
@@ -38,18 +39,8 @@ router.put(
 // ROTA PARA LISTAR ENTREGAS POR ENTREGADOR
 router.get('/deliveryman/:id/status/:status', DeliveryManController.deliveries);
 
-// ROTAS PARA ADD, ATUALIZAR, EXCLUIR E LISTAR ENTREGADORES
-router.get('/deliveryman', DeliveryManController.index);
-router.get('/deliveryman/name/:name', DeliveryManController.findByName);
-router.post('/deliveryman', validationDeliveryMan, DeliveryManController.store);
-router.put('/deliveryman', validationDeliveryMan, DeliveryManController.update);
-router.delete('/deliveryman/:id', DeliveryManController.delete);
-router.get('/deliveryman/:id', DeliveryManController.findById);
-
-// ROTA PARA CADASTRO DE PROBLEMAS NA ENTREGA
+// ROTA PARA CADASTRO E LISTAGEM DE PROBLEMAS NA ENTREGA
 router.post('/deliveryissues', validationIssue, DeliveryIssuesController.issue);
-
-// ROTAS PARA LISTAR PROBLEMAS NA ENTREGA POR PEDIDO
 router.get('/deliveryissues/:orderid/issues', DeliveryIssuesController.issues);
 
 // ROTA PARA UPLOAD DE ASSINATURA
@@ -57,10 +48,18 @@ router.post('/signature', FileController.storeSignature);
 
 // AUTENTICAÇÃO
 router.post('/session', SessionController.store);
-// router.use(authentication);
+router.use(authentication);
 
 // ROTAS PARA LISTAR PROBLEMAS NA ENTREGA
 router.get('/deliveryissues', DeliveryIssuesController.index);
+
+// ROTAS PARA ADD, ATUALIZAR, EXCLUIR E LISTAR ENTREGADORES
+router.get('/deliveryman', DeliveryManController.index);
+router.get('/deliveryman/name/:name', DeliveryManController.findByName);
+router.post('/deliveryman', validationDeliveryMan, DeliveryManController.store);
+router.put('/deliveryman', validationDeliveryMan, DeliveryManController.update);
+router.delete('/deliveryman/:id', DeliveryManController.delete);
+router.get('/deliveryman/:id', DeliveryManController.findById);
 
 // ROTAS PARA ADD, ATUALIZAR DESTINATÁRIO
 router.get('/recipient', RecipientController.index);
