@@ -1,6 +1,6 @@
 import Recipient from '../../models/Recipient';
 
-const updateRecipient = async (param) => {
+export default async function UpdateRecipient(param) {
   const { cep } = param;
 
   const recipient = await Recipient.findOne({
@@ -14,8 +14,4 @@ const updateRecipient = async (param) => {
   const { nome } = await recipient.update(param);
 
   return nome;
-};
-
-module.exports = {
-  updateRecipient,
-};
+}

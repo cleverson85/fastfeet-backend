@@ -1,7 +1,9 @@
 import { Op } from 'sequelize';
 import DeliveryMan from '../../models/DeliveryMan';
 import Order from '../../models/Order';
-import DeliveryManMethod from './Get';
+import {
+  GetAll, GetById, GetByName, GetByStatus,
+} from './Get';
 
 class DeliveryManController {
   async store(req, res) {
@@ -55,7 +57,7 @@ class DeliveryManController {
         description: 'Delivery Man id',
         required: true } */
 
-    const deliveryMan = await DeliveryManMethod.getById(req.params);
+    const deliveryMan = await GetById(req.params);
 
     if (!deliveryMan) {
       return res.send({ status: 401, message: `Entregador ${deliveryMan.name} não encontrado.` });
@@ -79,7 +81,7 @@ class DeliveryManController {
     /* #swagger.tags = ['Delivery Man']
        #swagger.description = 'Endpoint to get all Delivery Man.' */
 
-    const deliveryMans = await DeliveryManMethod.getAll();
+    const deliveryMans = await GetAll();
     return res.json(deliveryMans);
   }
 
@@ -92,7 +94,7 @@ class DeliveryManController {
             description: 'Delivery Man id',
             required: true } */
 
-    const deliveryMan = await DeliveryManMethod.getById(req.params);
+    const deliveryMan = await GetById(req.params);
     return res.json(deliveryMan);
   }
 
@@ -105,7 +107,7 @@ class DeliveryManController {
                 description: 'Delivery Man name',
                 required: true } */
 
-    const deliveryMans = await DeliveryManMethod.getByName(req.params);
+    const deliveryMans = await GetByName(req.params);
     return res.json(deliveryMans);
   }
 
@@ -119,7 +121,7 @@ class DeliveryManController {
       return res.send({ status: 401, message: 'Usuário não encontrado.' });
     }
 
-    const orders = await DeliveryManMethod.getByStatus(req.params);
+    const orders = await GetByStatus(req.params);
 
     if (!orders) {
       return res.send({ status: 401, message: 'Não foram encotradas encomendas com entrega confirmada.' });

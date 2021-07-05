@@ -3,11 +3,11 @@ import Recipient from '../../models/Recipient';
 import DeliveryIssues from '../../models/DeliveryIssues';
 
 class DeliveryIssuesController {
-  getAtributtes() {
+  GetAtributtes() {
     return ['id', 'description', 'created_at'];
   }
 
-  getIncludes() {
+  GetIncludes() {
     return [
       {
         model: Order,
@@ -29,9 +29,9 @@ class DeliveryIssuesController {
        #swagger.description = 'Endpoint to get all Delivery Issues.' */
     try {
       const deliveryIssues = await DeliveryIssues.findAll({
-        attributes: this.getAtributtes(),
+        attributes: this.GetAtributtes(),
         order: ['order_id'],
-        include: this.getIncludes(),
+        include: this.GetIncludes(),
       });
 
       return res.json(deliveryIssues);
@@ -51,8 +51,8 @@ class DeliveryIssuesController {
         order_id: orderid,
       },
       order: ['order_id'],
-      attributes: this.getAtributtes(),
-      include: this.getIncludes(),
+      attributes: this.GetAtributtes(),
+      include: this.GetIncludes(),
     });
 
     if (!issues) {

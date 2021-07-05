@@ -4,71 +4,65 @@ import File from '../../models/File';
 import Order from '../../models/Order';
 import Recipient from '../../models/Recipient';
 
-class OrderMethod {
-  getInclues() {
-    return [{
+const GetInclues = () => [{
+  model: File,
+  as: 'signature',
+  attributes: ['id', 'path', 'url'],
+},
+{
+  model: Recipient,
+  as: 'recipient',
+  attributes: ['nome', 'rua', 'numero', 'cidade', 'estado', 'cep'],
+},
+{
+  model: DeliveryMan,
+  as: 'deliveryMan',
+  attributes: ['name'],
+  include: [
+    {
       model: File,
-      as: 'signature',
+      as: 'avatar',
       attributes: ['id', 'path', 'url'],
     },
-    {
-      model: Recipient,
-      as: 'recipient',
-      attributes: ['nome', 'rua', 'numero', 'cidade', 'estado', 'cep'],
-    },
-    {
-      model: DeliveryMan,
-      as: 'deliveryMan',
-      attributes: ['name'],
-      include: [
-        {
-          model: File,
-          as: 'avatar',
-          attributes: ['id', 'path', 'url'],
-        },
-      ],
-    }];
-  }
+  ],
+}];
 
-  getAtributes() {
-    return ['id', 'product', 'signature_id', 'start_date', 'end_date', 'canceled_at'];
-  }
+const GetAtributes = () => ['id', 'product', 'signature_id', 'start_date', 'end_date', 'canceled_at'];
 
-  async getAll() {
-    const orders = await Order.findAll({
-      attributes: this.getAtributes(),
-      order: ['id'],
-      include: this.getInclues(),
-    });
+export async function GetAllAsync() {
+  const orders = await Order.findAll({
+    attributes: GetAtributes(),
+    order: ['id'],
+    include: GetInclues(),
+  });
 
-    return orders;
-  }
-
-  async getByProductName(param) {
-    const { productName } = param;
-
-    const orders = await Order.findAll({
-      where: { product: { [Op.iLike]: `%${productName}%` } },
-      attributes: this.getAtributes(),
-      order: ['id'],
-      include: this.getInclues(),
-    });
-
-    return orders;
-  }
-
-  async getById(param) {
-    const { id } = param;
-
-    const orders = await Order.findOne({
-      where: { id },
-      attributes: this.getAtributes(),
-      order: ['id'],
-      include: this.getInclues(),
-    });
-
-    return orders;
-  }
+  return orders;
 }
 
-export default new OrderMethod();
+export async function GetByProductNameAsync(param) {
+  const { productName } = param;
+
+  const orders = await Order.findAll({
+    where: { product: { [Op.iLike]: `%${productName}%` } },
+    attributes: GetAtributes(),
+    order: ['id'],
+    include: GetInclues(),
+  });
+
+  return orders;
+}
+
+export async function GetByIdAsync(param) {
+  const { id } = param;
+
+  const orders = await Order.findOne({
+    where: { id },
+    attributes: GetAtributes(),
+    order: ['id'],
+    include: GetInclues(),
+  });
+
+  return orders;
+}
+
+export default [GetAllAsync, GetByProductNameAsync, GetByIdAsync];

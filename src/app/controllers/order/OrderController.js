@@ -1,7 +1,7 @@
-import deleteOrder from './Delete';
-import OrderMethod from './Get';
-import addOrder from './Post';
-import updateOrder from './Put';
+import DeleteOrderAsync from './Delete';
+import { GetAllAsync, GetByProductNameAsync, GetByIdAsync } from './Get';
+import AddOrderAsync from './Post';
+import UpdateOrderAsync from './Put';
 
 class OrderController {
   async store(req, res) {
@@ -16,7 +16,7 @@ class OrderController {
                 schema: { product: '', recipient_id: 0, deliveryman_id: 0 }
               } */
 
-    addOrder(req.body);
+    await AddOrderAsync(req.body);
     return res.send({ status: 200, message: 'Pedido cadastrado com secesso!' });
   }
 
@@ -32,7 +32,7 @@ class OrderController {
                 schema: { id: 0, product: '', recipient_id: 0, deliveryman_id: 0 }
               } */
 
-    updateOrder(req.body);
+    await UpdateOrderAsync(req.body);
     return res.send({ status: 200, message: 'Pedido atualizado com secesso!' });
   }
 
@@ -45,13 +45,13 @@ class OrderController {
                 description: 'Order id',
                 required: true } } */
 
-    const order = await OrderMethod.getById(req.params);
+    const order = await GetByIdAsync(req.params);
 
     if (order && order.start_date && !order.canceled_at) {
       return res.send({ status: 404, message: 'Não é possível excluir pedido retirado para entrega.' });
     }
 
-    deleteOrder(order);
+    await DeleteOrderAsync(order);
 
     return res.send({ status: 200, message: 'Pedido excluído com sucesso!' });
   }
@@ -65,7 +65,7 @@ class OrderController {
                 description: 'Order id',
                 required: true } */
 
-    const orders = await OrderMethod.getById(req.params);
+    const orders = await GetByIdAsync(req.params);
     return res.json(orders);
   }
 
@@ -78,7 +78,7 @@ class OrderController {
                 description: 'Product name',
                 required: true } */
 
-    const orders = await OrderMethod.getByProductName(req.params);
+    const orders = await GetByProductNameAsync(req.params);
     return res.json(orders);
   }
 
@@ -86,7 +86,7 @@ class OrderController {
     /* #swagger.tags = ['Order']
        #swagger.description = 'Endpoint to get all orders.' */
 
-    const orders = await OrderMethod.getAll();
+    const orders = await GetAllAsync();
     return res.json(orders);
   }
 }

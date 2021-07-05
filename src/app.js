@@ -8,6 +8,8 @@ import routes from './routes';
 
 import './database';
 
+require('dotenv');
+
 class App {
   constructor() {
     this.server = express();

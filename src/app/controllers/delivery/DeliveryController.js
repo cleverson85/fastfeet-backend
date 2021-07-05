@@ -1,14 +1,14 @@
 import formatISO from 'date-fns/formatISO';
 import Order from '../../models/Order';
-import cancelDelivery from './Cancel';
-import DeliveryMethod from './Get';
+import CancelDeliveryAsync from './Cancel';
+import GetAsync from './Get';
 
 class DeliveryController {
   async index(req, res) {
     /* #swagger.tags = ['Delivery']
        #swagger.description = 'Endpoint to get all Deliveries.' */
 
-    const orders = DeliveryMethod.get(req.params);
+    const orders = await GetAsync(req.params);
 
     if (!orders) {
       return res.send({ status: 401, message: 'Não foram encotradas encomendas.' });
@@ -56,7 +56,7 @@ class DeliveryController {
     /* #swagger.tags = ['Delivery']
        #swagger.description = 'Endpoint to cancel a Delivery.' */
 
-    await cancelDelivery(req.params);
+    await CancelDeliveryAsync(req.params);
     return res.send({ status: 200, message: 'Pedido cancelado com sucesso.' });
   }
 }

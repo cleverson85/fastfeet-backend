@@ -1,6 +1,10 @@
 import Queue from 'bull';
 import * as jobs from '../app/jobs/Index';
 
+require('dotenv').config({
+  path: process.env.API_ENVIRONMENT === 'docker' ? '.env.docker' : '.env',
+});
+
 const options = { redis: { port: 6379, host: process.env.REDIS_HOST, password: '' } };
 
 const queues = Object.values(jobs).map((job) => ({

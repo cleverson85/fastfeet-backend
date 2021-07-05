@@ -3,21 +3,21 @@ import DeliveryMan from '../../models/DeliveryMan';
 import Order from '../../models/Order';
 import Recipient from '../../models/Recipient';
 
-const sendEmail = async ({
+async function SendEmail({
   id,
   product,
   recipient_id,
   deliveryman_id,
-}) => {
+}) {
   const deliveryman = await DeliveryMan.findByPk(deliveryman_id);
   const recipient = await Recipient.findByPk(recipient_id);
 
   await Queue.add('Email', {
     id, product, deliveryman, recipient,
   });
-};
+}
 
-const addOrder = async (param) => {
+export default async function AddOrderAsync(param) {
   const {
     id,
     product,
@@ -25,7 +25,7 @@ const addOrder = async (param) => {
     deliveryman_id,
   } = await Order.create(param);
 
-  sendEmail({
+  await SendEmail({
     id,
     product,
     recipient_id,
@@ -33,8 +33,4 @@ const addOrder = async (param) => {
   });
 
   return id;
-};
-
-module.exports = {
-  addOrder,
-};
+}

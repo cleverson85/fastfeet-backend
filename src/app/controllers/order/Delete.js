@@ -1,6 +1,6 @@
 import DeliveryIssues from '../../models/DeliveryIssues';
 
-const deleteOrder = async (order) => {
+export default async function DeleteOrderAsync(order) {
   const { id } = order;
 
   const issues = await DeliveryIssues.findAll({
@@ -14,8 +14,4 @@ const deleteOrder = async (order) => {
   });
 
   order.destroy();
-};
-
-module.exports = {
-  deleteOrder,
-};
+}

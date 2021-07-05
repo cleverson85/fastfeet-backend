@@ -1,7 +1,7 @@
 import { Op } from 'sequelize';
 import Recipient from '../../models/Recipient';
 
-const addRecipient = async (param) => {
+export default async function AddRecipient(param) {
   const { numero, cep } = param;
 
   const recipient = await Recipient.findOne({
@@ -15,8 +15,4 @@ const addRecipient = async (param) => {
   const { nome } = await Recipient.create(param);
 
   return nome;
-};
-
-module.exports = {
-  addRecipient,
-};
+}

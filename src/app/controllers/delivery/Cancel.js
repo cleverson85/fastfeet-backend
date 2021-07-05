@@ -3,7 +3,7 @@ import Mail from '../../../lib/Mail';
 import DeliveryMan from '../../models/DeliveryMan';
 import Order from '../../models/Order';
 
-const cancelDelivery = async (params) => {
+export default async function CancelDeliveryAsync(params) {
   const { id } = params;
 
   const order = await Order.findByPk(id);
@@ -18,8 +18,4 @@ const cancelDelivery = async (params) => {
     subject: `Pedido ${order.id} cancelado.`,
     text: `Informamos que o pedido de código ${order.id} foi cancelado.`,
   });
-};
-
-module.exports = {
-  cancelDelivery,
-};
+}

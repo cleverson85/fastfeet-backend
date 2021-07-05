@@ -1,7 +1,7 @@
 import Order from '../../models/Order';
 import Recipient from '../../models/Recipient';
 
-const deleteRecipient = async (param) => {
+export default async function DeleteRecipient(param) {
   const { id } = param;
 
   const recipient = await Recipient.findOne({
@@ -25,8 +25,4 @@ const deleteRecipient = async (param) => {
   recipient.destroy();
 
   return recipient;
-};
-
-module.exports = {
-  deleteRecipient,
-};
+}

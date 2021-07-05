@@ -1,6 +1,6 @@
 import Order from '../../models/Order';
 
-const updateOrder = async (param) => {
+export default async function UpdateOrderAsync(param) {
   const { id } = param;
   const order = await Order.findByPk(id);
 
@@ -9,8 +9,4 @@ const updateOrder = async (param) => {
   }
 
   await order.update(param);
-};
-
-module.exports = {
-  updateOrder,
-};
+}

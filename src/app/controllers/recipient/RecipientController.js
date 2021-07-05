@@ -1,7 +1,7 @@
-import deleteRecipient from './Delete';
-import RecipientMethod from './Get';
-import addRecipient from './Post';
-import updateRecipient from './Put';
+import DeleteRecipient from './Delete';
+import { GetAllRecipients, GetByName, GetById } from './Get';
+import AddRecipient from './Post';
+import UpdateRecipient from './Put';
 
 class RecipientController {
   async store(req, res) {
@@ -22,7 +22,7 @@ class RecipientController {
                           cep: '' }
               } */
 
-    const nome = addRecipient(req.body);
+    const nome = await AddRecipient(req.body);
     return res.send({ status: 200, message: `Destinatário ${nome} cadastrado com sucesso!` });
   }
 
@@ -45,7 +45,7 @@ class RecipientController {
                       cep: '' }
           } */
 
-    const nome = updateRecipient(req.body);
+    const nome = await UpdateRecipient(req.body);
     return res.send({ status: 200, message: `Destinatário ${nome} editado com sucesso!` });
   }
 
@@ -53,7 +53,7 @@ class RecipientController {
     /* #swagger.tags = ['Recipient']
        #swagger.description = 'Endpoint to get all recipients.' */
 
-    const recipients = await RecipientMethod.getAllRecipients();
+    const recipients = await GetAllRecipients();
     return res.json(recipients);
   }
 
@@ -66,7 +66,7 @@ class RecipientController {
                 description: 'Recipient name',
                 required: true } */
 
-    const recipients = await RecipientMethod.getByName(req.params);
+    const recipients = await GetByName(req.params);
     return res.json(recipients);
   }
 
@@ -74,7 +74,7 @@ class RecipientController {
     /* #swagger.tags = ['Recipient']
        #swagger.description = 'Endpoint to get a specific recipient by id.' */
 
-    const recipients = await RecipientMethod.getById(req.params);
+    const recipients = await GetById(req.params);
     return res.json(recipients);
   }
 
@@ -82,7 +82,7 @@ class RecipientController {
     /* #swagger.tags = ['Recipient']
        #swagger.description = 'Endpoint to delete the specific recipient.' */
 
-    const recipient = deleteRecipient(req.params);
+    const recipient = await DeleteRecipient(req.params);
     return res.send({ status: 200, message: `Destinatário ${recipient.nome} foi excluído com sucesso!` });
   }
 }
